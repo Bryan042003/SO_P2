@@ -2,7 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MMU } from '../modelos/mmu.model';
-import { Page } from '../modelos/pagina.model';
+
 
 
 @Component({
@@ -30,7 +30,7 @@ export class MenuPrincipalComponent { mmu: MMU;
       this.mmu.use(ptr);
       console.log(`Using memory at ptr ${ptr}`);
     } catch (error) {
-      console.error(error.message);
+      console.error((error as Error).message);
     }
   }
 
@@ -39,7 +39,7 @@ export class MenuPrincipalComponent { mmu: MMU;
       this.mmu.delete(ptr);
       console.log(`Memory at ptr ${ptr} deleted`);
     } catch (error) {
-      console.error(error.message);
+      console.error((error as Error).message);
     }
   }
 

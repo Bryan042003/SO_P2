@@ -49,25 +49,25 @@
     <div>
       <label for="size">Tamaño de memoria a asignar (KB):</label>
       <input id="size" #sizeInput type="number">
-      <button (click)="addProcess(sizeInput.value)">Agregar Proceso</button>
+      <button (click)="addProcess(+sizeInput.value)">Agregar Proceso</button>
     </div>
   
     <div>
       <label for="ptr">Usar Puntero:</label>
       <input id="ptr" #ptrInput type="number">
-      <button (click)="useMemory(ptrInput.value)">Usar Memoria</button>
+      <button (click)="useMemory(+ptrInput.value)">Usar Memoria</button>
     </div>
   
     <div>
       <label for="ptrDelete">Borrar Puntero:</label>
       <input id="ptrDelete" #ptrDeleteInput type="number">
-      <button (click)="deleteMemory(ptrDeleteInput.value)">Borrar Memoria</button>
+      <button (click)="deleteMemory(+ptrDeleteInput.value)">Borrar Memoria</button>
     </div>
   
     <div>
       <label for="pidKill">Matar Proceso:</label>
       <input id="pidKill" #pidKillInput type="number">
-      <button (click)="killProcess(pidKillInput.value)">Matar Proceso</button>
+      <button (click)="killProcess(+pidKillInput.value)">Matar Proceso</button>
     </div>
   
     <button (click)="printMemory()">Imprimir Estado de la Memoria</button>
