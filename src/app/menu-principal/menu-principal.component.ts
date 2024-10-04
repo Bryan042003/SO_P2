@@ -15,6 +15,17 @@ import { MMU } from '../modelos/mmu.model';
 export class MenuPrincipalComponent { mmu: MMU;
   processIdCounter: number = 1;
 
+  nombreArchivo: string = '';
+
+  mostrarNombreArchivo(event: any): void {
+    const archivo = event.target.files[0];
+    if (archivo) {
+      this.nombreArchivo = archivo.name;
+    } else {
+      this.nombreArchivo = 'Seleccionar archivo';
+    }
+  }
+
   constructor() {
     this.mmu = new MMU();
   }

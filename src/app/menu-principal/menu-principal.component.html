@@ -1,76 +1,89 @@
 <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
-    <div
-        style="align-items: center; background-color: #F8F8F8; place-content: center; padding: 10% 0% 10% 0%; justify-content: center;">
-        <h1 style="margin: 40px;">Proyecto Programado 2 Sistemas Operativos</h1>
-        <div style="justify-content: center;">
-            <p>Ingresar semilla</p>
-            <input type="number" name="semilla" id="semilla" min="0">
-            <br>
+  <div
+    style="display: flex; flex-direction: column; align-items: center; background-color: #F8F8F8; padding: 10%; ">
+    <h1 style="margin: 40px;">Proyecto Programado 2 Sistemas Operativos</h1>
+    <div style="display: flex; flex-direction: column; ">
 
-            <p>Seleccionar Algoritmo</p>
-            <select name="" id="opciones">
-                <option value="opcion3" selected>SELECCIONAR</option>
-                <option value="opcion1">FIFO</option>
-                <option value="opcion2">SC</option>
-                <option value="opcion3">MRU</option>
-                <option value="opcion4">RND</option>
-            </select>
 
-            <p>Seleccionar Cantidad de Procesos</p>
-            <select name="" id="opciones">
-                <option value="opcion3" selected>0</option>
-                <option value="opcion1">10</option>
-                <option value="opcion2">50</option>
-                <option value="opcion3">100</option>
-            </select>
+      <div style="background-color: white; padding:10px; margin: 10px;">
+        <label for="semilla">Ingresar semilla</label>
+        <input type="number" name="semilla" id="semilla" min="0" style="border: none;">
+      </div>
 
-            <p>Seleccionar Cantidad de Operaciones</p>
-            <select name="" id="opciones">
-                <option value="opcion3" selected>0</option>
-                <option value="opcion1">500</option>
-                <option value="opcion2">1000</option>
-                <option value="opcion3">5000</option>
-            </select>
+      <div style="background-color: white; padding:10px;margin: 10px;">
+        <label for="opciones">Seleccionar Algoritmo</label>
+        <select name="" id="opciones">
+          <option value="opcion1">FIFO</option>
+          <option value="opcion2">SC</option>
+          <option value="opcion3">MRU</option>
+          <option value="opcion4">RND</option>
+        </select>
+      </div>
 
-            <p>Seleccionar Archivo</p>
-            <input type="file" name="archivo" id="archivo">
+      <div style="background-color: white; padding:10px;margin: 10px;">
+        <label for="opciones2">Seleccionar Cantidad de Procesos</label>
+        <select name="" id="opciones2">
+          <option value="opcion1">10</option>
+          <option value="opcion2">50</option>
+          <option value="opcion3">100</option>
+        </select>
+      </div>
 
-        </div>
-        <div style="margin: 40px;">
-            <button>Ejecutar</button>
-        </div>
-
+      <div style="background-color: white; padding:10px;margin: 10px;">
+      <label for="opciones3">Seleccionar Cantidad de Operaciones</label>
+      <select name="" id="opciones3">
+        <option value="opcion1">500</option>
+        <option value="opcion2">1000</option>
+        <option value="opcion3">5000</option>
+      </select>
     </div>
+
+      
+      <div style="background-color: white; padding:10px;margin: 10px;">
+        <input type="text" [value]="nombreArchivo || 'Seleccionar archivo'" style=" font-size: 16px;  border: none; background-color: transparent;">
+        <label for="archivo" style="cursor: pointer;padding: 10px; background-color: #9D9FB2; color: white; border-radius: 20px;  font-size: 10px; transition: background-color 0.3s ease;">
+          nombre del archivo
+        </label>
+        <input type="file" id="archivo" (change)="mostrarNombreArchivo($event)" style="display: none;">
+      </div>
+    </div>
+
+    <div style="margin: 40px; ">
+      <button
+        style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2 ;">Ejecutar</button>
+    </div>
+  </div>
 </div>
 
+
 <div class="container">
-    <h1>Simulación de Gestión de Memoria</h1>
-    
-    <div>
-      <label for="size">Tamaño de memoria a asignar (KB):</label>
-      <input id="size" #sizeInput type="number">
-      <button (click)="addProcess(+sizeInput.value)">Agregar Proceso</button>
-    </div>
-  
-    <div>
-      <label for="ptr">Usar Puntero:</label>
-      <input id="ptr" #ptrInput type="number">
-      <button (click)="useMemory(+ptrInput.value)">Usar Memoria</button>
-    </div>
-  
-    <div>
-      <label for="ptrDelete">Borrar Puntero:</label>
-      <input id="ptrDelete" #ptrDeleteInput type="number">
-      <button (click)="deleteMemory(+ptrDeleteInput.value)">Borrar Memoria</button>
-    </div>
-  
-    <div>
-      <label for="pidKill">Matar Proceso:</label>
-      <input id="pidKill" #pidKillInput type="number">
-      <button (click)="killProcess(+pidKillInput.value)">Matar Proceso</button>
-    </div>
-  
-    <button (click)="printMemory()">Imprimir Estado de la Memoria</button>
-  
-    <pre id="output"></pre>
+  <h1>Simulación de Gestión de Memoria</h1>
+
+  <div>
+    <label for="size">Tamaño de memoria a asignar (KB):</label>
+    <input id="size" #sizeInput type="number">
+    <button (click)="addProcess(+sizeInput.value)">Agregar Proceso</button>
   </div>
+
+  <div>
+    <label for="ptr">Usar Puntero:</label>
+    <input id="ptr" #ptrInput type="number">
+    <button (click)="useMemory(+ptrInput.value)">Usar Memoria</button>
+  </div>
+
+  <div>
+    <label for="ptrDelete">Borrar Puntero:</label>
+    <input id="ptrDelete" #ptrDeleteInput type="number">
+    <button (click)="deleteMemory(+ptrDeleteInput.value)">Borrar Memoria</button>
+  </div>
+
+  <div>
+    <label for="pidKill">Matar Proceso:</label>
+    <input id="pidKill" #pidKillInput type="number">
+    <button (click)="killProcess(+pidKillInput.value)">Matar Proceso</button>
+  </div>
+
+  <button (click)="printMemory()">Imprimir Estado de la Memoria</button>
+
+  <pre id="output"></pre>
+</div>
