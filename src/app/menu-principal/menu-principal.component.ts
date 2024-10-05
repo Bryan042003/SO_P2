@@ -15,6 +15,11 @@ import { MMU } from '../modelos/mmu.model';
 export class MenuPrincipalComponent { mmu: MMU;
   processIdCounter: number = 1;
 
+  //variables para guardar los datos de la simulacion
+  semilla: number = 0;
+  algoritmoSeleccionado: string = 'FIFO';
+  cantidadProcesos: number = 10;
+  cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
 
   mostrarNombreArchivo(event: any): void {
@@ -61,6 +66,17 @@ export class MenuPrincipalComponent { mmu: MMU;
 
   printMemory() {
     this.mmu.printMemory();
+  }
+
+
+  guardarDatos() {
+    console.log('Semilla:', this.semilla);
+    console.log('Algoritmo Seleccionado:', this.algoritmoSeleccionado);
+    console.log('Cantidad de Procesos:', this.cantidadProcesos);
+    console.log('Cantidad de Operaciones:', this.cantidadOperaciones);
+    console.log('Archivo Seleccionado:', this.nombreArchivo);
+    
+    // Aquí iría tu lógica para manejar estos datos
   }
 }
 

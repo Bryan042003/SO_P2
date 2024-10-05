@@ -1,61 +1,59 @@
 <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center;">
-  <div
-    style="display: flex; flex-direction: column; align-items: center; background-color: #F8F8F8; padding: 10%; ">
+  <div style="display: flex; flex-direction: column; align-items: center; background-color: #F8F8F8; padding: 10%;">
     <h1 style="margin: 40px;">Proyecto Programado 2 Sistemas Operativos</h1>
-    <div style="display: flex; flex-direction: column; ">
-
+    <div style="display: flex; flex-direction: column;">
 
       <div style="background-color: white; padding:10px; margin: 10px;">
         <label for="semilla">Ingresar semilla</label>
-        <input type="number" name="semilla" id="semilla" min="0" style="border: none;">
+        <input type="number" [(ngModel)]="semilla" name="semilla" id="semilla" min="0" style="border: none;">
       </div>
 
       <div style="background-color: white; padding:10px;margin: 10px;">
         <label for="opciones">Seleccionar Algoritmo</label>
-        <select name="" id="opciones">
-          <option value="opcion1">FIFO</option>
-          <option value="opcion2">SC</option>
-          <option value="opcion3">MRU</option>
-          <option value="opcion4">RND</option>
+        <select [(ngModel)]="algoritmoSeleccionado" id="opciones">
+          <option value="FIFO">FIFO</option>
+          <option value="SC">SC</option>
+          <option value="MRU">MRU</option>
+          <option value="RND">RND</option>
         </select>
       </div>
 
       <div style="background-color: white; padding:10px;margin: 10px;">
         <label for="opciones2">Seleccionar Cantidad de Procesos</label>
-        <select name="" id="opciones2">
-          <option value="opcion1">10</option>
-          <option value="opcion2">50</option>
-          <option value="opcion3">100</option>
+        <select [(ngModel)]="cantidadProcesos" id="opciones2">
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
         </select>
       </div>
 
       <div style="background-color: white; padding:10px;margin: 10px;">
-      <label for="opciones3">Seleccionar Cantidad de Operaciones</label>
-      <select name="" id="opciones3">
-        <option value="opcion1">500</option>
-        <option value="opcion2">1000</option>
-        <option value="opcion3">5000</option>
-      </select>
-    </div>
+        <label for="opciones3">Seleccionar Cantidad de Operaciones</label>
+        <select [(ngModel)]="cantidadOperaciones" id="opciones3">
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+          <option value="5000">5000</option>
+        </select>
+      </div>
 
-      
       <div style="background-color: white; padding:10px;margin: 10px;">
-        <input type="text" [value]="nombreArchivo || 'Seleccionar archivo'" style=" font-size: 16px;  border: none; background-color: transparent;">
-        <label for="archivo" style="cursor: pointer;padding: 10px; background-color: #9D9FB2; color: white; border-radius: 20px;  font-size: 10px; transition: background-color 0.3s ease;">
+        <input type="text" [value]="nombreArchivo || 'Seleccionar archivo'" style="font-size: 16px; border: none; background-color: transparent;">
+        <label for="archivo" style="cursor: pointer; padding: 10px; background-color: #9D9FB2; color: white; border-radius: 20px; font-size: 10px; transition: background-color 0.3s ease;">
           nombre del archivo
         </label>
         <input type="file" id="archivo" (change)="mostrarNombreArchivo($event)" style="display: none;">
       </div>
     </div>
 
-    <div style="margin: 40px; ">
+    <div style="margin: 40px;">
       <button
-        style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2 ;">Ejecutar</button>
+        style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;" (click)="guardarDatos()">Ejecutar</button>
     </div>
   </div>
 </div>
 
 
+<!--
 <div class="container">
   <h1>Simulación de Gestión de Memoria</h1>
 
@@ -87,3 +85,4 @@
 
   <pre id="output"></pre>
 </div>
+-->
