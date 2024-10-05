@@ -1,0 +1,431 @@
+<style>
+    .col {
+        font-size: 10px;
+    }
+</style>
+
+
+
+<div style="width: 100%; height: 100%; padding: 10px;">
+
+
+    <div class="row" style="width: 100%; padding: 10px;">
+        <div class="col" style="border: 1px solid black;">
+            <div class="row" style="background-color: #FBF0F0 ;">
+                RAM - OPT
+            </div>
+            <div class="row" style="border: 1px solid black;">
+
+                <div class="col" *ngFor="let col of columns; let i = index" style="height: 20px; border: 1px solid black;">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row" style="width: 100%; padding: 10px;">
+        <div class="col" style="border: 1px solid black;">
+            <div class="row" style="background-color: #FBF0F0 ;">
+                RAM - [ALG]
+            </div>
+            <div class="row">
+                <div class="col" *ngFor="let col of columns; let i = index" style="height: 20px; border: 1px solid black;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" style="width: 100%; ">
+
+        <div class="col" style="margin: 10px;">
+
+            <div class="row" style="background-color: #8F828D; color:white">
+                MMU - OPT
+            </div>
+            <div class="row">
+                <div class="col" style="border: 1px solid black;">
+                    PAGE ID
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    PID
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    LOADED
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    L-ADDR
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    M-ADDR
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    D-ADDR
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    LOADED-T
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    MARK
+                </div>
+            </div>
+
+
+
+            <div class="row" style="width: 104.5%;">
+
+                <!----AQUI ES DONDE VA EL FOR PARA TODOS LOS DATOS-->
+                <div style="height: 300px; overflow-y: scroll">
+                    <div class="row">
+                        <div class="col" style="border: 1px solid black;">
+                            col1
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col2
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col3
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col4
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col5
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col6
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col7
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col8
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="col" style="margin: 10px;">
+
+            <div class="row" style="background-color: #8F828D; color:white">
+                MMU - [ALG]
+            </div>
+            <div class="row">
+                <div class="col" style="border: 1px solid black;">
+                    PAGE ID
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    PID
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    LOADED
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    L-ADDR
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    M-ADDR
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    D-ADDR
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    LOADED-T
+                </div>
+                <div class="col" style="border: 1px solid black;">
+                    MARK
+                </div>
+            </div>
+            <div class="row" style="width: 104.5%;">
+
+                <!----AQUI ES DONDE VA EL FOR PARA TODOS LOS DATOS-->
+                <div style="height: 300px; overflow-y: scroll">
+                    <div class="row">
+                        <div class="col" style="border: 1px solid black;">
+                            col1
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col2
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col3
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col4
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col5
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col6
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col7
+                        </div>
+                        <div class="col" style="border: 1px solid black;">
+                            col8
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" style="width: 100%; padding: 10px;">
+
+        <div class="col" style="width: 100%; height: 100%;">
+            <div class="row " style="margin: 5px;">
+                <div class="col">
+                    <div class="row" style="border: 1px solid black;">
+                        Processes
+                    </div>
+                    <div class="row" style="border: 1px solid black;">
+                        5
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row" style="border: 1px solid black;">
+                        Sim-time
+                    </div>
+                    <div class="row" style="border: 1px solid black;">
+                        5
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row " style="margin: 5px;">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                RAM kb
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                RAM %
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                V-RAM KB
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                V-RAM %
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row " style="margin: 5px;">
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row" style="border: 1px solid black;">
+                        PAGES
+                    </div>
+                    <div class="row" style="height: 100%;">
+                        <div class="col" style="height: 100%;">
+                            <div class="row" style="border: 1px solid black; height: 100%;">
+                                LOADED
+                            </div>
+                            <div class="row" style="border: 1px solid black; height: 100%;">
+                                2
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black; ">
+                                UNLOADED
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row" style="border: 1px solid black; height: 100%;">
+                        Trashing
+                    </div>
+                    <div class="row" style="height: 100%;">
+                        <div class="col" style="border: 1px solid black;height: 100%;">
+                            150s
+                        </div>
+                        <div class="col" style="border: 1px solid black;height: 100%;">
+                            60%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row" style="border: 1px solid black;">
+                        fragmentación
+                    </div>
+                    <div class="row" style="border: 1px solid black; height: 100%;">
+                        256 KB
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="col" style="width: 100%; height: 100%;">
+            <div class="row " style="margin: 5px;">
+                <div class="col">
+                    <div class="row" style="border: 1px solid black;">
+                        Processes
+                    </div>
+                    <div class="row" style="border: 1px solid black;">
+                        5
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row" style="border: 1px solid black;">
+                        Sim-time
+                    </div>
+                    <div class="row" style="border: 1px solid black;">
+                        5
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row " style="margin: 5px;">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                RAM kb
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                RAM %
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                V-RAM KB
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black;">
+                                V-RAM %
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                5
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row " style="margin: 5px;">
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row" style="border: 1px solid black;">
+                        PAGES
+                    </div>
+                    <div class="row" style="height: 100%;">
+                        <div class="col" style="height: 100%;">
+                            <div class="row" style="border: 1px solid black; height: 100%;">
+                                LOADED
+                            </div>
+                            <div class="row" style="border: 1px solid black; height: 100%;">
+                                2
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row" style="border: 1px solid black; ">
+                                UNLOADED
+                            </div>
+                            <div class="row" style="border: 1px solid black;">
+                                2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row" style="border: 1px solid black; height: 100%;">
+                        Trashing
+                    </div>
+                    <div class="row" style="height: 100%;">
+                        <div class="col" style="border: 1px solid black;height: 100%;">
+                            150s
+                        </div>
+                        <div class="col" style="border: 1px solid black;height: 100%;">
+                            60%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row" style="border: 1px solid black;">
+                        fragmentación
+                    </div>
+                    <div class="row" style="border: 1px solid black; height: 100%;">
+                        256 KB
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
