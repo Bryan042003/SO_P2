@@ -1,59 +1,48 @@
-export class FIFO {
-    private numFrames: number;     // Cantidad de marcos de página en la memoria real
-    private frames: number[];      // Cola FIFO para las páginas en la memoria
-    private pageFaults: number;    // Contador de fallos de página
+import { PageAlgorithm } from "../modelos/pageAlgorithm";
+import { Page } from "../modelos/pagina.model";
 
-    constructor(numFrames: number) {
-        this.numFrames = numFrames;
-        this.frames = [];
-        this.pageFaults = 0;
+export class FIFO extends PageAlgorithm {
+  constructor(memoryCapacity: number = 100) {
+    super(memoryCapacity);
+  }
+
+  override referencePage(refPage: Page): [Page | null, number] {
+    // Incrementa el tiempo de uso de todas las páginas en la memoria
+    this.memory.forEach(page => page.lastAccess += 1);
+
+    // Verifica si la página ya está en la memoria
+    for (let page of this.memory) {
+      if (page.pageId === refPage.pageId) {
+        page.lastAccess = 0; // Reinicia el tiempo de uso
+        return [null, 0]; // No se reemplazó ninguna página
+      }
     }
 
-    // Método para acceder a una página en la memoria
-    accessPage(pageId: number): void {
-        if (this.frames.includes(pageId)) {
-            // Si la página ya está en la memoria
-            console.log(`Page ${pageId} is already in memory.`);
-        } else {
-            // Si hay un fallo de página
-            this.pageFaults++;
-            if (this.frames.length < this.numFrames) {
-                // Si hay espacio en la memoria, agregamos la nueva página
-                this.frames.push(pageId);
-                console.log(`Page ${pageId} loaded into memory.`);
-            } else {
-                // Si no hay espacio, removemos la primera página (FIFO) y cargamos la nueva
-                const evictedPage = this.frames.shift();
-                this.frames.push(pageId);
-                console.log(`Page ${pageId} loaded into memory. Page ${evictedPage} evicted.`);
-            }
-        }
+    // Si la página no está en la memoria, reemplaza la página con más tiempo en memoria
+    let maxTime = Number.MAX_SAFE_INTEGER;
+    let maxPage: Page | null = null;
+
+    this.memory.forEach(page => {
+      if (page.timestamp < maxTime) {
+        maxTime = page.timestamp;
+        maxPage = page;
+      }
+    });
+
+    // Almacena la dirección física de la página que será reemplazada
+    let physicalAddress = (maxPage as unknown as Page)?.physicalAddress;
+
+    // Elimina la página que será reemplazada
+    if (maxPage) {
+        console.log(`Reemplazando página`);
+      this.memory = this.memory.filter(p => p !== maxPage);
     }
 
-    // Método para obtener el número total de fallos de página
-    getPageFaults(): number {
-        return this.pageFaults;
-    }
+    // Agrega la nueva página a la memoria
+    refPage.physicalAddress = physicalAddress;
+    this.memory.push(refPage);
 
-    // Método para obtener el estado actual de los marcos de memoria
-    getFrames(): number[] {
-        return this.frames;
-    }
+    // Retorna la página reemplazada y el código de resultado
+    return [maxPage, 1]; // Se reemplazó una página
+  }
 }
-
-// Ejemplo de uso
-const fifo = new FIFO(3);
-
-// Accedemos a las páginas en orden
-fifo.accessPage(1);  // Carga la página 1
-fifo.accessPage(2);  // Carga la página 2
-fifo.accessPage(3);  // Carga la página 3
-fifo.accessPage(1);  // Página 1 ya está en memoria
-fifo.accessPage(4);  // Evicta la página 1, carga la página 4
-fifo.accessPage(5);  // Evicta la página 2, carga la página 5
-
-// Mostramos el número total de fallos de página
-console.log("Total page faults:", fifo.getPageFaults());
-
-// Mostramos el estado actual de los marcos de memoria
-console.log("Current frames:", fifo.getFrames());
