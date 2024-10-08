@@ -2,6 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MMU } from '../modelos/mmu.model';
+import { FIFO } from '../algoritmos/FIFO'; 
 
 
 
@@ -21,6 +22,24 @@ export class MenuPrincipalComponent { mmu: MMU;
   cantidadProcesos: number = 10;
   cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
+
+  Llamarfifo() {
+    const fifo = new FIFO(3);
+
+    // Accedemos a las páginas en orden
+    fifo.accessPage(1);  // Carga la página 1
+    fifo.accessPage(2);  // Carga la página 2
+    fifo.accessPage(3);  // Carga la página 3
+    fifo.accessPage(1);  // Página 1 ya está en memoria
+    fifo.accessPage(4);  // Evicta la página 1, carga la página 4
+    fifo.accessPage(5);  // Evicta la página 2, carga la página 5
+
+    // Mostramos el número total de fallos de página
+    console.log("Total page faults:", fifo.getPageFaults());
+
+    // Mostramos el estado actual de los marcos de memoria
+    console.log("Current frames:", fifo.getFrames());
+   }
 
   mostrarNombreArchivo(event: any): void {
     const archivo = event.target.files[0];
@@ -75,6 +94,7 @@ export class MenuPrincipalComponent { mmu: MMU;
     console.log('Cantidad de Procesos:', this.cantidadProcesos);
     console.log('Cantidad de Operaciones:', this.cantidadOperaciones);
     console.log('Archivo Seleccionado:', this.nombreArchivo);
+    this.Llamarfifo();
     
     // Aquí iría tu lógica para manejar estos datos
   }
