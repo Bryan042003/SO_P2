@@ -1,42 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-
-import { MMUServiceService } from '../services/mmuservice.service';
+import { MMU } from '../services/mmuservice.service';
 import { FormsModule } from '@angular/forms';
-
 
 @Component({
   selector: 'app-menu-principal',
   standalone: true,
-  imports: [ FormsModule],
+  imports: [ FormsModule ],
   templateUrl: './menu-principal.component.html',
-  styleUrl: './menu-principal.component.css'
+  styleUrls: ['./menu-principal.component.css']
 })
 export class MenuPrincipalComponent implements OnInit {
   processIdCounter: number = 1;
 
-  //variables para guardar los datos de la simulacion
+  // Variables para guardar los datos de la simulación
   semilla: number = 0;
   algoritmoSeleccionado: string = 'FIFO';
   cantidadProcesos: number = 10;
   cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
 
-
-
-  constructor(private memoryService: MMUServiceService) { }
+  constructor(private memoryService: MMU) { }
 
   ngOnInit(): void {
-    // Simula la referencia de páginas
-    this.memoryService.managePage(1, Date.now());
-    this.memoryService.managePage(2, Date.now());
-    this.memoryService.managePage(3, Date.now());
-    this.memoryService.managePage(4, Date.now());
-    this.memoryService.managePage(5, Date.now());
-    this.memoryService.managePage(6, Date.now()); // Esto debería reemplazar la primera página
   }
-  
-
-
 
   mostrarNombreArchivo(event: any): void {
     const archivo = event.target.files[0];
@@ -47,16 +33,31 @@ export class MenuPrincipalComponent implements OnInit {
     }
   }
 
- 
   guardarDatos() {
     console.log('Semilla:', this.semilla);
     console.log('Algoritmo Seleccionado:', this.algoritmoSeleccionado);
     console.log('Cantidad de Procesos:', this.cantidadProcesos);
     console.log('Cantidad de Operaciones:', this.cantidadOperaciones);
     console.log('Archivo Seleccionado:', this.nombreArchivo);
-  
     
-    // Aquí iría tu lógica para manejar estos datos
+    // Simular procesos y accesos a la memoria
+    this.simularMMU();
+  }
+
+  // Simulación de la MMU
+  simularMMU() {
+    // Crear procesos según la cantidad especificada
+    for (let i = 0; i < this.cantidadProcesos; i++) {
+      const processSize = Math.floor(Math.random() * 20) + 5; // Tamaño del proceso aleatorio
+      this.memoryService.newProcess(processSize);
+    }
+
+    // Realizar accesos a la memoria
+    for (let i = 0; i < this.cantidadOperaciones; i++) {
+      this.memoryService.simulateMemoryAccess();
+    }
+
+    // Mostrar el estado final de la memoria
+    this.memoryService.showMemoryState();
   }
 }
-

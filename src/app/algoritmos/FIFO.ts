@@ -9,7 +9,7 @@ export class FIFO extends PageAlgorithm {
   override referencePage(refPage: Page): [Page | null, number] {
     // Verifica si la página ya está en la memoria
     for (let page of this.memory) {
-      if (page.pageId === refPage.pageId) {
+      if (page?.pageId === refPage.pageId) {
         return [null, 0]; // No se reemplazó ninguna página
       }
     }
