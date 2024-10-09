@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-menu-principal',
   standalone: true,
-  imports: [ FormsModule ],
+  imports: [FormsModule],
   templateUrl: './menu-principal.component.html',
   styleUrls: ['./menu-principal.component.css']
 })
@@ -39,7 +39,7 @@ export class MenuPrincipalComponent implements OnInit {
     console.log('Cantidad de Procesos:', this.cantidadProcesos);
     console.log('Cantidad de Operaciones:', this.cantidadOperaciones);
     console.log('Archivo Seleccionado:', this.nombreArchivo);
-    
+
     // Simular procesos y accesos a la memoria
     this.simularMMU();
   }
@@ -49,15 +49,18 @@ export class MenuPrincipalComponent implements OnInit {
     // Crear procesos según la cantidad especificada
     for (let i = 0; i < this.cantidadProcesos; i++) {
       const processSize = Math.floor(Math.random() * 20) + 5; // Tamaño del proceso aleatorio
-      this.memoryService.newProcess(processSize);
+      const pid = this.processIdCounter++;
+      const pointer = this.memoryService.newProcess(pid, processSize); // Crear un nuevo proceso
+      console.log(`Proceso creado: PID=${pid}, Tamaño=${processSize}, Pointer=${pointer}`);
     }
 
     // Realizar accesos a la memoria
     for (let i = 0; i < this.cantidadOperaciones; i++) {
-      this.memoryService.simulateMemoryAccess();
+      const randomPointer = Math.floor(Math.random() * this.processIdCounter); // Seleccionar un proceso aleatorio
+      this.memoryService.usePointer(randomPointer); // Simular el uso del puntero
     }
 
     // Mostrar el estado final de la memoria
-    this.memoryService.showMemoryState();
+    //this.memoryService.showMemoryState(); // Asegúrate de que este método esté definido en tu servicio
   }
 }
