@@ -7,6 +7,10 @@ import { Process } from '../modelos/process.model';
   providedIn: 'root'
 })
 export class MMU {
+
+
+
+
   realMemory: (Page | null)[]; // La memoria real contiene páginas o espacios vacíos (null)
   virtualMemory: Page[]; // Memoria virtual para páginas no cargadas en memoria real
   memoryMap: Map<number, Page[]>; // Mapa de punteros a tablas de páginas
@@ -15,6 +19,7 @@ export class MMU {
   pointerCount: number;
   totalTime: number;
   thrashingTime: number;
+  private datos: any = {};
 
   constructor() {
     this.realMemory = Array(100).fill(null); // Memoria real con 100 espacios
@@ -25,6 +30,15 @@ export class MMU {
     this.totalTime = 1;
     this.thrashingTime = 1;
     this.fifoAlgorithm = new FIFO(5); // Capacidad de memoria de 5 páginas
+  }
+
+  guardarDatos(datos: any): void {
+    this.datos = datos;
+    console.log('Datos guardados MMU:', this.datos);
+  }
+
+  obtenerDatos(): any {
+    return this.datos;
   }
 
   setAlgorithm(algorithm: FIFO) {
