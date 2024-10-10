@@ -18,7 +18,7 @@ export class FIFO extends PageAlgorithm {
 
     // Si la memoria está llena, reemplaza la página más antigua
     if (this.memory.length >= this.memoryCapacity) {
-      replacedPage = this.memory.shift() || null; // Elimina la primera página
+      replacedPage = this.memory.pop() || null; // Elimina la primera página
     }
     this.memory.push(refPage);
 

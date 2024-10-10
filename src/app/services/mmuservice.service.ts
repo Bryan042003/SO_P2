@@ -129,8 +129,8 @@ export class MMU {
   }
 
   killProcess(process: Process) {
-    for (const page of process.pageTable) {
-      this.deletePointer(page.pageId); // Asegúrate de pasar el pageId
+    for (const pointer of process.pageTable) {
+      this.deletePointer(pointer);
     }
     process.pageTable = [];
     this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de eliminar un proceso
