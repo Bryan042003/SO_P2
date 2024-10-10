@@ -24,21 +24,7 @@ export class MenuPrincipalComponent {
   cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
 
-  operations: string[] = []; // Array para almacenar las operaciones (instrucciones)
-  private computer: Computer;
-
-  constructor(private memoryService: MMU, private router:Router) {
-    // Inicializa Computer en el constructor
-    const mmu1 = new MMU();
-    const mmu2 = new MMU();
-    
-    // Crea el objeto de sesión usando this.operations
-    const sessionData = new Session(this.operations.length, this.operations);
-    this.computer = new Computer(mmu1, mmu2, sessionData);
-  }
-
-
-
+  constructor(private memoryService: MMU, private router:Router) {}
 
   mostrarNombreArchivo(event: any): void {
     const archivo = event.target.files[0];
@@ -61,14 +47,11 @@ export class MenuPrincipalComponent {
     };
     console.log('Datos capturados:', datos);
     this.memoryService.guardarDatos(datos);
-    
-    
   }
 
   irASimulacion(): void {
     this.router.navigate(['/simulacion']);
   }
-
 
 }
 
