@@ -4,7 +4,7 @@ import { Page } from "./pagina.model";
 export class Process {
     pid: number;
     size: number;
-    pageTable: Page[];  // O puedes definir el tipo específico de los elementos si sabes cuál será
+    pageTable: number[];
    
     constructor(pid: number, size: number, color: [number, number, number]) {
       this.pid = pid;
