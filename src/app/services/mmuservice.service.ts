@@ -8,9 +8,6 @@ import { Process } from '../modelos/process.model';
 })
 export class MMU {
 
-
-
-
   realMemory: (Page | null)[]; // La memoria real contiene páginas o espacios vacíos (null)
   virtualMemory: Page[]; // Memoria virtual para páginas no cargadas en memoria real
   memoryMap: Map<number, Page[]>; // Mapa de punteros a tablas de páginas
@@ -29,7 +26,7 @@ export class MMU {
     this.pointerCount = 0;
     this.totalTime = 1;
     this.thrashingTime = 1;
-    this.fifoAlgorithm = new FIFO(5); // Capacidad de memoria de 5 páginas
+    this.fifoAlgorithm = new FIFO(100); // Capacidad de memoria de 5 páginas
   }
 
   guardarDatos(datos: any): void {
@@ -84,7 +81,7 @@ export class MMU {
     }
 
     console.log(`Proceso con ${pagesNeeded} páginas agregado.`); // Registro del proceso agregado
-    this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de agregar el proceso
+    //this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de agregar el proceso
 
     const currentPointer = this.pointerCount;
     this.memoryMap.set(currentPointer, createdPages);
@@ -118,7 +115,7 @@ export class MMU {
       this.totalTime += time;
     }
 
-    this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de usar un puntero
+    ////this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de usar un puntero
   }
 
   deletePointer(pointer: number) {
@@ -139,7 +136,7 @@ export class MMU {
     }
 
     this.memoryMap.delete(pointer);
-    this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de eliminar un puntero
+    //this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de eliminar un puntero
   }
 
   killProcess(process: Process) {
@@ -147,7 +144,7 @@ export class MMU {
       this.deletePointer(pointer);
     }
     process.pageTable = [];
-    this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de eliminar un proceso
+    //this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de eliminar un proceso
   }
 
   getTime(): number {
@@ -156,5 +153,13 @@ export class MMU {
 
   getThrashingTime(): number {
     return this.thrashingTime;
+  }
+
+  getRealMemory(): (Page | null)[] {
+    return this.realMemory;
+  }
+
+  getVirtualMemory(): Page[] {
+    return this.virtualMemory;
   }
 }

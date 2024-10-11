@@ -55,7 +55,9 @@ class Computer {
         const color = this.generateRandomColor();
         this.usedColors.push(color);
 
+        console.log("process Op");
         const optPointer = this.mainMMU.newProcess(pid, size);
+        console.log("process normal");
         const otherPointer = this.otherMMU.newProcess(pid, size);
 
         let exists = false;
@@ -81,6 +83,8 @@ class Computer {
             this.mainProcesses.push(optProcess);
             this.otherProcesses.push(otherProcess);
         }
+
+        this.otherMMU.printVirtualMemory();
     }
 
     runUse(ptr: number) {
@@ -150,6 +154,8 @@ class Computer {
             }
         });
     }
+
+
 }
 
 export { Computer };
