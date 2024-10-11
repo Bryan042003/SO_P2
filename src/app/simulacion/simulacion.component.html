@@ -1,100 +1,98 @@
-<style>
-    .col {
-        font-size: 10px;
-    }
-</style>
+<div style="width: 100%; height: 100%; padding: 20px;">
 
+    <div class="row" style="width: 100%; padding: 10px;">
+        <div class="col" style="border: 1px solid black;">
+            <div class="row"
+                style="background-color: #FBF0F0 ; display: flex; justify-content: center; align-items: center;">
+                RAM - OPT
+            </div>
+            <div class="row">
+                <div class="col" *ngFor="let col of columns; let i = index"
+                    style="height: 20px; border: 1px solid black; padding: 0;">
 
-
-<div style="width: 100%; height: 100%; padding: 10px;">
-
-  <div class="row" style="width: 100%; padding: 10px;">
-    <div class="col" style="border: 1px solid black;">
-        <div class="row" style="background-color: #FBF0F0 ;">
-            RAM - OPT
-        </div>
-        <div class="row">
-            <div class="col" *ngFor="let col of columns; let i = index" style="height: 20px; border: 1px solid black; padding: 0;">
-
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row" style="width: 100%; padding: 10px;">
-    <div class="col" style="border: 1px solid black;">
-        <div class="row" style="background-color: #FBF0F0 ;">
-            RAM - [ALG]
-        </div>
-        <div class="row">
-            <div class="col" *ngFor="let col of columns; let i = index" style="height: 20px; border: 1px solid black; padding: 0;">
+    <div class="row" style="width: 100%; padding: 10px;">
+        <div class="col" style="border: 1px solid black;">
+            <div class="row"
+                style="background-color: #FBF0F0; display: flex; justify-content: center; align-items: center; ">
+                RAM - [ALG]
+            </div>
 
+            <div class="row">
+                <div class="col" *ngFor="let col of columns; let i = index"
+                    style="height: 20px; border: 1px solid black; padding: 0;">
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <div class="row" style="width: 100%; ">
 
         <div class="col" style="margin: 10px;">
 
-            <div class="row" style="background-color: #8F828D; color:white">
+            <div class="row"
+                style="background-color: #8F828D; color:white;display: flex; justify-content: center; align-items: center;">
                 MMU - OPT
             </div>
             <div class="row">
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     PAGE ID
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     PID
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     LOADED
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     L-ADDR
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     M-ADDR
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     D-ADDR
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     LOADED-T
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black;text-align: center;">
                     MARK
                 </div>
             </div>
 
-            <div class="row" style="width: 104.5%;">
+            <div class="row">
 
                 <!----AQUI ES DONDE VA EL FOR PARA TODOS LOS DATOS-->
-                <div style="height: 300px; overflow-y: scroll">
+                <div style="height: 200px; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
                     <div class="row">
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
 
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
                             col2
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
                             col3
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
                             col4
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
                             col5
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
                             col6
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
                             col7
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black;text-align: center;">
                             col8
                         </div>
                     </div>
@@ -108,72 +106,76 @@
 
         <div class="col" style="margin: 10px;">
 
-            <div class="row" style="background-color: #8F828D; color:white">
+            <div class="row"
+                style="background-color: #8F828D; color:white; display: flex; justify-content: center; align-items: center;">
                 MMU - [ALG]
             </div>
             <div class="row">
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     PAGE ID
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     PID
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     LOADED
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     L-ADDR
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     M-ADDR
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     D-ADDR
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     LOADED-T
                 </div>
-                <div class="col" style="border: 1px solid black;">
+                <div class="col" style="border: 1px solid black; text-align: center;">
                     MARK
                 </div>
             </div>
-            <div class="row" style="width: 104.5%;">
+            <div class="row">
 
                 <!----AQUI ES DONDE VA EL FOR PARA TODOS LOS DATOS-->
-                <div style="height: 300px; overflow-y: scroll">
+                <div style="height:200px; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
+
                     <div *ngFor="let dato of datosm2" class="row">
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black; text-align: center;">
                             {{dato.pageId}}
                         </div>
-                        <div class="col" style="border: 1px solid black;">
-                           process
+                        <div class="col" style="border: 1px solid black; text-align: center;">
+                            process
                         </div>
-                        <div *ngIf="dato.positionFlag === true; else positionfalse" class="col" style="border: 1px solid black;">
-                          X
+                        <div *ngIf="dato.positionFlag === true; else positionfalse" class="col"
+                            style="border: 1px solid black; text-align: center;">
+                            X
                         </div>
                         <ng-template #positionfalse>
-                          <div class="col" style="border: 1px solid black;">
+                            <div class="col" style="border: 1px solid black; text-align: center;">
 
-                          </div>
-                          </ng-template>
-                        <div class="col" style="border: 1px solid black;">
-                          LDDR
+                            </div>
+                        </ng-template>
+                        <div class="col" style="border: 1px solid black; text-align: center;">
+                            LDDR
                         </div>
-                        <div *ngIf="dato.positionFlag; else positionfalseNEW" class="col" style="border: 1px solid black;">
-                          {{dato.physicalAddress}}
+                        <div *ngIf="dato.positionFlag; else positionfalseNEW" class="col"
+                            style="border: 1px solid black; text-align: center;">
+                            {{dato.physicalAddress}}
                         </div>
                         <ng-template #positionfalseNEW>
-                          <div class="col" style="border: 1px solid black;">
-                            0
-                          </div>
-                          </ng-template>
-                        <div class="col" style="border: 1px solid black;">
+                            <div class="col" style="border: 1px solid black; text-align: center;">
+                                0
+                            </div>
+                        </ng-template>
+                        <div class="col" style="border: 1px solid black; text-align: center;">
                             col6
                         </div>
-                        <div class="col" style="border: 1px solid black;">
-                          {{dato.timestamp}}s
+                        <div class="col" style="border: 1px solid black; text-align: center;">
+                            {{dato.timestamp}}s
                         </div>
-                        <div class="col" style="border: 1px solid black;">
+                        <div class="col" style="border: 1px solid black; text-align: center;">
                             1
                         </div>
                     </div>
@@ -186,21 +188,25 @@
 
     <div class="row" style="width: 100%; padding: 10px;">
 
-        <div class="col" style="width: 100%; height: 100%;">
+        <div class="col" style="width: 100%; height: 100%; padding: 0px 40px 0px 40px">
             <div class="row " style="margin: 5px;">
                 <div class="col">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black;display: flex; justify-content: center; align-items: center;">
                         Processes
                     </div>
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         5
                     </div>
                 </div>
                 <div class="col">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         Sim-time
                     </div>
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         5
                     </div>
                 </div>
@@ -211,19 +217,23 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 RAM kb
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
 
                         </div>
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 RAM %
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
                         </div>
@@ -233,19 +243,23 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 V-RAM KB
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
 
                         </div>
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 V-RAM %
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
                         </div>
@@ -257,47 +271,57 @@
 
             <div class="row " style="margin: 5px;">
                 <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         PAGES
                     </div>
                     <div class="row" style="height: 100%;">
                         <div class="col" style="height: 100%;">
-                            <div class="row" style="border: 1px solid black; height: 100%;">
+                            <div class="row"
+                                style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
                                 LOADED
                             </div>
-                            <div class="row" style="border: 1px solid black; height: 100%;">
+                            <div class="row"
+                                style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;">
                                 2
                             </div>
                         </div>
                         <div class="col">
-                            <div class="row" style="border: 1px solid black; ">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 UNLOADED
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 2
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row" style="border: 1px solid black; height: 100%;">
-                        Trashing
+                <div class="col" style="width: 100%;height: 100%; background-color:#ffc7ce; color: red; ;">
+                    <div class="row"
+                        style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;text-align: center;">
+                        <strong>Trashing</strong>
                     </div>
                     <div class="row" style="height: 100%;">
-                        <div class="col" style="border: 1px solid black;height: 100%;">
-                            150s
+                        <div class="col"
+                            style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center; ">
+                            <strong>150s</strong>
                         </div>
-                        <div class="col" style="border: 1px solid black;height: 100%;">
-                            60%
+                        <div class="col"
+                            style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center;">
+                            <strong>60%</strong>
                         </div>
                     </div>
                 </div>
 
                 <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         fragmentación
                     </div>
-                    <div class="row" style="border: 1px solid black; height: 100%;">
+                    <div class="row"
+                        style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
                         256 KB
                     </div>
                 </div>
@@ -308,21 +332,26 @@
 
 
 
-        <div class="col" style="width: 100%; height: 100%;">
+        <div class="col" style="width: 100%; height: 100%; padding: 0px 40px 0px 40px">
+
             <div class="row " style="margin: 5px;">
                 <div class="col">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black;display: flex; justify-content: center; align-items: center;">
                         Processes
                     </div>
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         5
                     </div>
                 </div>
                 <div class="col">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         Sim-time
                     </div>
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         5
                     </div>
                 </div>
@@ -333,19 +362,23 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 RAM kb
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
 
                         </div>
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 RAM %
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
                         </div>
@@ -355,19 +388,23 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 V-RAM KB
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
 
                         </div>
                         <div class="col">
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 V-RAM %
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 5
                             </div>
                         </div>
@@ -379,47 +416,57 @@
 
             <div class="row " style="margin: 5px;">
                 <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         PAGES
                     </div>
                     <div class="row" style="height: 100%;">
                         <div class="col" style="height: 100%;">
-                            <div class="row" style="border: 1px solid black; height: 100%;">
+                            <div class="row"
+                                style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
                                 LOADED
                             </div>
-                            <div class="row" style="border: 1px solid black; height: 100%;">
+                            <div class="row"
+                                style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;">
                                 2
                             </div>
                         </div>
                         <div class="col">
-                            <div class="row" style="border: 1px solid black; ">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 UNLOADED
                             </div>
-                            <div class="row" style="border: 1px solid black;">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                                 2
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row" style="border: 1px solid black; height: 100%;">
-                        Trashing
+                <div class="col" style="width: 100%;height: 100%; background-color:#ffc7ce; color: red; ;">
+                    <div class="row"
+                        style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;text-align: center;">
+                        <strong>Trashing</strong>
                     </div>
                     <div class="row" style="height: 100%;">
-                        <div class="col" style="border: 1px solid black;height: 100%;">
-                            150s
+                        <div class="col"
+                            style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center;">
+                            <strong>150s</strong>
                         </div>
-                        <div class="col" style="border: 1px solid black;height: 100%;">
-                            60%
+                        <div class="col"
+                            style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center;">
+                            <strong>60%</strong>
                         </div>
                     </div>
                 </div>
 
                 <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row" style="border: 1px solid black;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         fragmentación
                     </div>
-                    <div class="row" style="border: 1px solid black; height: 100%;">
+                    <div class="row"
+                        style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
                         256 KB
                     </div>
                 </div>
@@ -431,10 +478,11 @@
     </div>
 
 
-    <div style="margin: 40px;">
-       <button style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;">
-            Pausar
+    <div style="display: flex; justify-content: center;">
+        <button
+            style=" width: 100px;height: 30px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;">
+            PAUSAR
         </button>
-      </div>
+    </div>
 
 </div>

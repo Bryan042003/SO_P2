@@ -1,0 +1,7 @@
+.col {
+    font-size: 10px;
+}
+
+div::-webkit-scrollbar {
+    display: none;
+}
