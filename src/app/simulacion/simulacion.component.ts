@@ -26,15 +26,18 @@ export class SimulacionComponent  {
   public dataMMU1Virtual: Page[] = [];
   public dataMMU2Real: Page[] = [];
   public dataMMU2Virtual: Page[] = [];
+  //public dataMMU2: Page[][] = [];
   public dataMMU2: Page[] = [];
   public dataRam: number[] = [];
   public dataNumProcess: number = 0;
   public textOperations: string[] = [];
   public currentProcess: number = 0;
   public processDataMM1: Process[] = [];
-  public processDataMM2: Process[] = [];
+  public processDataMM2: Process | undefined;
   public processByID: Process | undefined;
   public usedColors: [number, number, number][] | undefined
+  public allData: Array<[Process, ...Page[]]> = [];
+  public memoryLength: number = 0;
 
   processIdCounter: number = 1;
 
@@ -87,20 +90,24 @@ export class SimulacionComponent  {
     //this.memoryService.showMemoryState();
   }
 
-  getDataMMU(){
+  getDataMMU() {
     // Datos MM1
-    /// Datos MMU2
+
+    // Datos MMU2
     this.dataMMU2Real = this.mmu2.getRealMemory().filter((page): page is Page => page !== null);
     this.dataMMU2Virtual = this.mmu2.getVirtualMemory().filter((page): page is Page => page !== null);
     this.dataMMU2 = this.dataMMU2Real.concat(this.dataMMU2Virtual);
     this.getPDataMM2();
 
+
+    this.getPDataMM2();
+    this.frontData();
+    this.memoryLength = this.dataMMU2.length -1;
+
     // Datos generales
-    this.dataRam = this.computer.getRAMPages()
+    this.dataRam = this.computer.getRAMPages();
     this.dataNumProcess = this.computer.getProcessNumber();
     this.currentProcess = this.computer.getCurrentProcess();
-    //console.log('Datos MMU2:', this.dataRam);
-
   }
 
   executeOperations() {
@@ -124,10 +131,49 @@ export class SimulacionComponent  {
     ejecutarInstruccion();
   }
 
+  isPage(obj: any): obj is Page {
+    return obj && (obj as Page).pageId !== undefined;
+  }
+
   getPDataMM2() {
     this.usedColors = this.computer.getColors() || [];
-    this.processDataMM2 = this.computer.getProcessDataMM2();
-    console.log('Datos de procesos MM2:', this.processDataMM2);
+    //console.log("processNEEEEEEE", this.processDataMM2);
+    //console.log('Datos de procesos MM2:', this.processDataMM2);
+  }
+
+  getColorStyle(color: [number, number, number]): string {
+    return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+  }
+
+  frontData(): void {
+    //console.log("memoryLength", this.memoryLength);
+    //console.log("Ejecutando frontData...");
+    this.processDataMM2 = this.computer.getProcessDataMM2(); // Último proceso
+    const lastProcess = this.processDataMM2;
+    //console.log("lastProcess", lastProcess);
+
+    // Clonar el proceso para evitar la referencia compartida
+    const clonedProcess = { ...lastProcess };
+
+    // Asegurarse de que memoryLength no exceda el tamaño de dataMMU2
+    if (this.memoryLength < this.dataMMU2.length) {
+        // Obtener las páginas desde memoryLength hasta el final
+        const pagesFromMemoryLength = this.dataMMU2.slice(this.memoryLength);
+
+        // Clonar las páginas para evitar la referencia compartida
+        const clonedPages = pagesFromMemoryLength.map(page => ({ ...page }));
+
+        // Combinar el proceso clonado con las páginas desde memoryLength
+        const lastProcessWithPages: [Process, ...Page[]] = [clonedProcess, ...clonedPages];
+
+        // Agregar la combinación a allData sin sobrescribir los datos anteriores
+        this.allData = [...this.allData, lastProcessWithPages];
+
+        //console.log('allData actualizado:', this.allData);
+      } else {
+          //console.warn('memoryLength está fuera de los límites de dataMMU2.');
+      }
+
   }
 
   computerSimulation() {

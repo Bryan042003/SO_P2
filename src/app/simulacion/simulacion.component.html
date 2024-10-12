@@ -136,54 +136,49 @@
                     MARK
                 </div>
             </div>
-            <div class="row">
 
-        <!----TABLA MMU NORMAL-->
-                <div style="height:200px; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;">
-
-                    <div *ngFor="let dato of dataMMU2" class="row">
-                        <div class="col" style="border: 1px solid black; text-align: center;">
-                            {{dato.pageId}}
-                        </div>
-                        <div class="col" style="border: 1px solid black; text-align: center;">
-                           pid
-                        </div>
-                        <div *ngIf="dato.positionFlag === true; else positionfalse" class="col"
-                            style="border: 1px solid black; text-align: center;">
-                            X
-                        </div>
-                        <ng-template #positionfalse>
-                            <div class="col" style="border: 1px solid black; text-align: center;">
-
-                            </div>
-                        </ng-template>
-                        <div class="col" style="border: 1px solid black; text-align: center;">
-                            LDDR
-                        </div>
-                        <div *ngIf="dato.positionFlag; else positionfalseNEW" class="col"
-                            style="border: 1px solid black; text-align: center;">
-                            {{dato.physicalAddress}}
-                        </div>
-                        <ng-template #positionfalseNEW>
-                            <div class="col" style="border: 1px solid black; text-align: center;">
-                                0
-                            </div>
-                        </ng-template>
-                        <div class="col" style="border: 1px solid black; text-align: center;">
-                            col6
-                        </div>
-                        <div class="col" style="border: 1px solid black; text-align: center;">
-                            {{dato.timestamp}}s
-                        </div>
-                        <div class="col" style="border: 1px solid black; text-align: center;">
-                            1
-                        </div>
+          <div class="row">
+            <!----TABLA MMU NORMAL-->
+            <div style="height:200px; overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none; ;">
+              <div *ngFor="let dato of allData" class="row" style="background-color: black;">
+                <!-- Iterar sobre las páginas en dato -->
+                <div *ngFor="let page of dato.slice(1)" class="row" [style.backgroundColor]="'rgb(' + dato[0].color.join(',') + ')'" style="padding: 0%; margin: 0%;">
+                  <div *ngIf="isPage(page)" class="col" style="border: 1px solid black; text-align: center;">
+                    {{ page.pageId }}
+                  </div>
+                  <div *ngIf="isPage(page)" class="col" style="border: 1px solid black; text-align: center; width: 100%;">
+                    {{ dato[0].pid }}
+                  </div>
+                  <div *ngIf="isPage(page) && page.positionFlag === true; else positionfalse" class="col" style="border: 1px solid black; text-align: center;">
+                    X
+                  </div>
+                  <ng-template #positionfalse>
+                    <div class="col" style="border: 1px solid black; text-align: center;"></div>
+                  </ng-template>
+                  <div *ngIf="isPage(page)" class="col" style="border: 1px solid black; text-align: center;">
+                    LDDR
+                  </div>
+                  <div *ngIf="isPage(page) && page.positionFlag; else positionfalseNEW" class="col" style="border: 1px solid black; text-align: center;">
+                    {{ page.physicalAddress }}
+                  </div>
+                  <ng-template #positionfalseNEW>
+                    <div class="col" style="border: 1px solid black; text-align: center;">
+                      0
                     </div>
+                  </ng-template>
+                  <div *ngIf="isPage(page)" class="col" style="border: 1px solid black; text-align: center;">
+                    col6
+                  </div>
+                  <div *ngIf="isPage(page)" class="col" style="border: 1px solid black; text-align: center;">
+                    {{ page.timestamp }}s
+                  </div>
+                  <div *ngIf="isPage(page)" class="col" style="border: 1px solid black; text-align: center;">1</div>
                 </div>
-
+              </div>
             </div>
         </div>
 
+      </div>
     </div>
 
 

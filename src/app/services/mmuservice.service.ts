@@ -19,9 +19,13 @@ export class MMU {
   private data: any = {};
   public operations: string[] = [];
   public usedColors: [number, number, number][] | undefined;
+  public virtualMemoryNew: Page[] = [];
+  public realMemoryNew: Page[] = [];
 
   constructor() {
     this.realMemory = Array(100).fill(null); // Memoria real con 100 espacios
+    //this.virtualMemoryNew = Array(100).fill(null).map(() => new Page());
+
     this.virtualMemory = [];
     this.memoryMap = new Map();
     this.pageCount = 0;

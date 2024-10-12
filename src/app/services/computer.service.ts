@@ -182,41 +182,12 @@ class Computer {
     }
 
     getProcessDataMM2() {
-      return this.otherProcesses;
+      return this.otherProcesses[this.otherProcesses.length - 1];
     }
-
-    get_process_by_color(color: [number, number, number]): Process | null {
-      // Buscar en la lista de mainProcesses
-      for (const process of this.mainProcesses) {
-        if (this.isSameColor(process.color, color)) {
-          return process;
-        }
-      }
-
-      // Buscar en la lista de otherProcesses
-      for (const process of this.otherProcesses) {
-        if (this.isSameColor(process.color, color)) {
-          return process;
-        }
-      }
-
-      // Si no se encuentra, devolver null
-      return null;
-    }
-
-    //getProcessbyColor(color: [number, number, number]) {
-    //  return this.mainProcesses.find(process => this.isSameColor(process.color, color));
-    //}
 
     getColors(): [number, number, number][] | undefined {
       return this.usedColors;
     }
-
-    /*
-    saveUsedColors() {
-      return this.mainMMU.saveColors(this.usedColors);
-    }
-    */
 
     getDate() {
       // nos vamos a traer todos los datos desde aqui
