@@ -18,7 +18,7 @@ class Computer {
     otherProcesses: Process[];
     usedColors: [number, number, number][]; // Usar un array de colores RGB
     operations: string[] = [];
-    public operacionesLeidas: string[] = [];
+    currentProcess: number = 0;
 
     constructor(mainMMU: MMU, otherMMU: MMU, session: Session) {
         this.instructionsPerSecond = 1;
@@ -38,27 +38,34 @@ class Computer {
         const op = operation.trim();
 
         if (op.startsWith('new(')) {
+            this.currentProcess = this.mainProcesses.length;
             const args = op.slice(4, -1).split(',').map(arg => arg.trim());
             this.runNew(Number(args[0]), Number(args[1]));
         } else if (op.startsWith('use(')) {
+            this.currentProcess = this.mainProcesses.length;
             const ptr = Number(op.slice(4, -1).trim());
             this.runUse(ptr);
         } else if (op.startsWith('delete(')) {
+            this.currentProcess = this.mainProcesses.length;
             const ptr = Number(op.slice(7, -1).trim());
             this.runDelete(ptr);
         } else if (op.startsWith('kill(')) {
+           this.currentProcess = this.mainProcesses.length;
             const pid = Number(op.slice(5, -1).trim());
             this.runKill(pid);
         } else {
             console.log('Invalid operation');
         }
-
     }
 
-    async executeOperations(operaciones: string[]) {
+    getCurrentProcess() {
+      return this.currentProcess;
+    }
+
+    async executeOperations(ops: string[]) {
       this.operations = [];
-      this.operations = operaciones;
-      console.log("operations", this.operations);
+      this.operations = ops;
+      //console.log("operations", this.operations);
       for (let i = 0; i < this.operations.length; i++) {
         //console.log("operacion", this.operations[i]);
         this.executeInstruction(this.operations[i]);
@@ -70,9 +77,9 @@ class Computer {
         const color = this.generateRandomColor();
         this.usedColors.push(color);
 
-        console.log("process Op");
+        //console.log("process Op");
         const optPointer = this.mainMMU.newProcess(pid, size);
-        console.log("process normal");
+        //console.log("process normal");
         const otherPointer = this.otherMMU.newProcess(pid, size);
 
         let exists = false;
@@ -99,7 +106,7 @@ class Computer {
             this.otherProcesses.push(otherProcess);
         }
 
-        this.otherMMU.printVirtualMemory();
+        //this.otherMMU.printVirtualMemory();
     }
 
     runUse(ptr: number) {
@@ -173,6 +180,43 @@ class Computer {
             }
         });
     }
+
+    getProcessDataMM2() {
+      return this.otherProcesses;
+    }
+
+    get_process_by_color(color: [number, number, number]): Process | null {
+      // Buscar en la lista de mainProcesses
+      for (const process of this.mainProcesses) {
+        if (this.isSameColor(process.color, color)) {
+          return process;
+        }
+      }
+
+      // Buscar en la lista de otherProcesses
+      for (const process of this.otherProcesses) {
+        if (this.isSameColor(process.color, color)) {
+          return process;
+        }
+      }
+
+      // Si no se encuentra, devolver null
+      return null;
+    }
+
+    //getProcessbyColor(color: [number, number, number]) {
+    //  return this.mainProcesses.find(process => this.isSameColor(process.color, color));
+    //}
+
+    getColors(): [number, number, number][] | undefined {
+      return this.usedColors;
+    }
+
+    /*
+    saveUsedColors() {
+      return this.mainMMU.saveColors(this.usedColors);
+    }
+    */
 
     getDate() {
       // nos vamos a traer todos los datos desde aqui

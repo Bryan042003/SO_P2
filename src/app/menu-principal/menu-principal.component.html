@@ -37,18 +37,18 @@
       </div>
 
       <div style="background-color: white; padding:10px;margin: 10px;">
-        <input type="text" [value]="nombreArchivo || 'Seleccionar archivo'"
+        <input type="text" [value]="fileName || 'Seleccionar archivo'"
           style="font-size: 16px; border: none; background-color: transparent;">
         <label for="archivo"
           style="cursor: pointer; padding: 10px; background-color: #9D9FB2; color: white; border-radius: 20px; font-size: 10px; transition: background-color 0.3s ease;">
           nombre del archivo
         </label>
-        <input type="file" id="archivo" (change)="mostrarNombreArchivo($event)" style="display: none;">
+        <input type="file" id="archivo" (change)="readShowFileName($event)" style="display: none;">
       </div>
     </div>
 
     <div style="margin: 40px;">
-      <a  (click)="guardarDatos(); irASimulacion()"   ><button
+      <a  (click)="guardarDatos(); gotoSimulation()"   ><button
         style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;"
          > Ejecutar</button></a>
     </div>

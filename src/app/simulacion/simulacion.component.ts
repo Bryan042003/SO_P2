@@ -4,6 +4,7 @@ import { MMU } from '../services/mmuservice.service';
 import { Computer } from '../services/computer.service';
 import { Session } from '../modelos/session.model';
 import { Page } from '../modelos/pagina.model';
+import { Process } from '../modelos/process.model';
 
 
 @Component({
@@ -21,15 +22,19 @@ export class SimulacionComponent  {
   private computer: Computer;
   private mmu1 = new MMU();
   private mmu2 = new MMU();
-  public datosm1_Real: Page[] = [];
-  public datosm1_Virtual: Page[] = [];
-  public datosm2_Real: Page[] = [];
-  public datosm2_Virtual: Page[] = [];
-  public datosm2: Page[] = [];
-  public datosRam: number[] = [];
-  public datosNumProcesos: number = 0;
-
-  public operacionesLeidas: string[] = [];
+  public dataMMU1Real: Page[] = [];
+  public dataMMU1Virtual: Page[] = [];
+  public dataMMU2Real: Page[] = [];
+  public dataMMU2Virtual: Page[] = [];
+  public dataMMU2: Page[] = [];
+  public dataRam: number[] = [];
+  public dataNumProcess: number = 0;
+  public textOperations: string[] = [];
+  public currentProcess: number = 0;
+  public processDataMM1: Process[] = [];
+  public processDataMM2: Process[] = [];
+  public processByID: Process | undefined;
+  public usedColors: [number, number, number][] | undefined
 
   processIdCounter: number = 1;
 
@@ -39,8 +44,6 @@ export class SimulacionComponent  {
   cantidadProcesos: number = 10;
   cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
-
-
 
   constructor(private memoryService: MMU,) {
     // Inicializa Computer en el constructor
@@ -54,24 +57,24 @@ export class SimulacionComponent  {
     // Este código se ejecuta después de que la vista haya sido completamente cargada
      // Crear un arreglo de 100 elementos
      this.columns = Array.from({ length: 72 }, (_, index) => index + 1);
-     this.datos = this.memoryService.obtenerDatos();
-     console.log('Datos obtenidos desde MMU:', this.datos);
+     this.datos = this.memoryService.getData();
+     //console.log('Datos obtenidos desde MMU:', this.datos);
      // Simular procesos y accesos a la memoria
 
 
-     //this.simularMMU();
+     //this.MMUsimulation();
      // Ejecutar prueba de la computadora
-     this.probarComputer();
+     this.computerSimulation();
   }
 
   // Simulación de la MMU
-  simularMMU() {
+  MMUsimulation() {
     // Crear procesos según la cantidad especificada
     for (let i = 0; i < this.cantidadProcesos; i++) {
       const processSize = Math.floor(Math.random() * 20) + 5; // Tamaño del proceso aleatorio
       const pid = this.processIdCounter++;
       const pointer = this.memoryService.newProcess(pid, processSize); // Crear un nuevo proceso
-      console.log(`Proceso creado: PID=${pid}, Tamaño=${processSize}, Pointer=${pointer}`);
+      //console.log(`Proceso creado: PID=${pid}, Tamaño=${processSize}, Pointer=${pointer}`);
     }
 
     // Realizar accesos a la memoria
@@ -84,48 +87,57 @@ export class SimulacionComponent  {
     //this.memoryService.showMemoryState();
   }
 
-  simulateComputer() {
-    // VAMOS A LEER EL ARCHIVO
-    // UNA VEZ LEEMOS EL ARCHIVO EJECUTAMOS EL EXECUTE Y LUEGO TRAER DATOS
-  }
-
-  traerDatosmm2(){
-
+  getDataMMU(){
     // Datos MM1
     /// Datos MMU2
-    this.datosm2_Real = this.mmu2.getRealMemory().filter((page): page is Page => page !== null);
-    this.datosm2_Virtual = this.mmu2.getVirtualMemory().filter((page): page is Page => page !== null);
-    this.datosm2 = this.datosm2_Real.concat(this.datosm2_Virtual);
+    this.dataMMU2Real = this.mmu2.getRealMemory().filter((page): page is Page => page !== null);
+    this.dataMMU2Virtual = this.mmu2.getVirtualMemory().filter((page): page is Page => page !== null);
+    this.dataMMU2 = this.dataMMU2Real.concat(this.dataMMU2Virtual);
+    this.getPDataMM2();
 
     // Datos generales
-    this.datosRam = this.computer.getRAMPages()
-    this.datosNumProcesos = this.computer.getProcessNumber();
-
-    console.log('Datos MMU2:', this.datosRam);
+    this.dataRam = this.computer.getRAMPages()
+    this.dataNumProcess = this.computer.getProcessNumber();
+    this.currentProcess = this.computer.getCurrentProcess();
+    //console.log('Datos MMU2:', this.dataRam);
 
   }
 
-  ejecutarOperaciones() {
-    this.operacionesLeidas = [];
-    this.operacionesLeidas = this.memoryService.obtenerOperaciones();
-    for (let i = 0; i < this.operacionesLeidas.length; i++) {
-      //console.log("operacion", this.operations[i]);
-      this.computer.executeInstruction(this.operacionesLeidas[i]);
-    }
-    this.traerDatosmm2();
-}
+  executeOperations() {
+    this.textOperations = [];
+    this.textOperations = this.memoryService.getOperations();
 
+    let i = 0;
 
-  // Método para probar la computadora
-  probarComputer() {
+    const ejecutarInstruccion = () => {
+      if (i < this.textOperations.length) {
+        this.computer.getCurrentProcess();
+        this.computer.executeInstruction(this.textOperations[i]);
+        console.log(`Ejecutando operación: ${this.textOperations[i]}`);
+        i++;
+        this.getDataMMU();
+        this.computer.getCurrentProcess();
+        setTimeout(ejecutarInstruccion, 2000); // 2s
+      }
+    };
+
+    ejecutarInstruccion();
+  }
+
+  getPDataMM2() {
+    this.usedColors = this.computer.getColors() || [];
+    this.processDataMM2 = this.computer.getProcessDataMM2();
+    console.log('Datos de procesos MM2:', this.processDataMM2);
+  }
+
+  computerSimulation() {
     console.log("Ejecutando prueba de la computadora...");
-    this.ejecutarOperaciones();
-
+    this.executeOperations();
 
     // Simulando procesos
     //console.log(`New1`);
     //this.computer.executeInstruction("new(1, 500)"); // Crear un nuevo proceso
-    //this.traerDatosmm2();
+    //this.getDataMMU();
     //console.log(`Kill`);
     //this.computer.executeInstruction("kill(1)"); // Matar el proceso 2
 

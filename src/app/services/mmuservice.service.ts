@@ -16,8 +16,9 @@ export class MMU {
   pointerCount: number;
   totalTime: number;
   thrashingTime: number;
-  private datos: any = {};
-  public operacionesLeidas: string[] = [];
+  private data: any = {};
+  public operations: string[] = [];
+  public usedColors: [number, number, number][] | undefined;
 
   constructor() {
     this.realMemory = Array(100).fill(null); // Memoria real con 100 espacios
@@ -30,13 +31,13 @@ export class MMU {
     this.fifoAlgorithm = new FIFO(100); // Capacidad de memoria de 5 páginas
   }
 
-  guardarDatos(datos: any): void {
-    this.datos = datos;
+  saveData(data: any): void {
+    this.data = data;
     //console.log('Datos guardados MMU:', this.datos);
   }
 
-  obtenerDatos(): any {
-    return this.datos;
+  getData(): any {
+    return this.data;
   }
 
   setAlgorithm(algorithm: FIFO) {
@@ -62,7 +63,7 @@ export class MMU {
           insertedPages++;
           this.totalTime++;
           pageInserted = true;
-          console.log(`Página ${page.pageId} agregada.`); // Registro de la página agregada
+          //console.log(`Página ${page.pageId} agregada.`); // Registro de la página agregada
           break;
         }
       }
@@ -81,7 +82,7 @@ export class MMU {
       }
     }
 
-    console.log(`Proceso con ${pagesNeeded} páginas agregado.`); // Registro del proceso agregado
+    //console.log(`Proceso con ${pagesNeeded} páginas agregado.`); // Registro del proceso agregado
     //this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de agregar el proceso
 
     const currentPointer = this.pointerCount;
@@ -164,14 +165,24 @@ export class MMU {
     return this.virtualMemory;
   }
 
-  guardarOperaciones(operaciones: string[]): void {
-    this.operacionesLeidas = [];
-    this.operacionesLeidas = operaciones;
-    console.log('Operaciones guardadas MMU:', this.operacionesLeidas);
+  saveOperations(operaciones: string[]): void {
+    this.operations = [];
+    this.operations = operaciones;
+    //console.log('Operaciones guardadas MMU:', this.operations);
   }
 
-  obtenerOperaciones(): string[] {
-    return this.operacionesLeidas;
+  getOperations(): string[] {
+    return this.operations;
+  }
+
+  saveColors(colors: [number, number, number][]): void {
+    this.usedColors = [];
+    this.usedColors = colors;
+    //console.log('Colores guardados MMU:', this.usedColors);
+  }
+
+  getColors(): [number, number, number][] | undefined {
+    return this.usedColors;
   }
 
 }

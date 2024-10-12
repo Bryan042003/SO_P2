@@ -21,17 +21,17 @@ export class MenuPrincipalComponent {
   algoritmoSeleccionado: string = 'FIFO';
   cantidadProcesos: number = 10;
   cantidadOperaciones: number = 500;
-  nombreArchivo: string = '';
+  fileName: string = '';
   public operacionesLeidas: string[] = [];
 
 
   constructor(private memoryService: MMU, private router:Router) {}
 
   // leer el archivo
-  mostrarNombreArchivo(event: any): void {
-    const archivo = event.target.files[0];
-    if (archivo) {
-      this.nombreArchivo = archivo.name;
+  readShowFileName(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
 
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -41,20 +41,18 @@ export class MenuPrincipalComponent {
         this.procesarArchivo(contenidoArchivo);
       };
 
-      reader.readAsText(archivo);
+      reader.readAsText(file);
     } else {
-      this.nombreArchivo = 'Seleccionar archivo';
+      this.fileName = 'Seleccionar archivo';
     }
   }
 
-  // Función para procesar el contenido del archivo
   procesarArchivo(contenido: string): void {
     this.operacionesLeidas = [];
-    const lineas = contenido.split('\n'); // Separamos el contenido por líneas
+    const lineas = contenido.split('\n'); // Separamos por líneas
 
-    // Iteramos sobre cada línea para procesar la información
     for (const linea of lineas) {
-      const regex = /(\w+)\((\d+)(?:,(\d+))?\)/; // Expresión regular para capturar la operación y los números
+      const regex = /(\w+)\((\d+)(?:,(\d+))?\)/; // capturar la operación y los números
       const coincidencias = linea.match(regex);
 
       if (coincidencias) {
@@ -80,14 +78,14 @@ export class MenuPrincipalComponent {
       algoritmoSeleccionado: this.algoritmoSeleccionado,
       cantidadProcesos: this.cantidadProcesos,
       cantidadOperaciones: this.cantidadOperaciones,
-      nombreArchivo: this.nombreArchivo
+      fileName: this.fileName
     };
     console.log('Datos capturados:', datos);
-    this.memoryService.guardarDatos(datos);
-    this.memoryService.guardarOperaciones(this.operacionesLeidas);
+    this.memoryService.saveData(datos);
+    this.memoryService.saveOperations(this.operacionesLeidas);
   }
 
-  irASimulacion(): void {
+  gotoSimulation(): void {
     this.router.navigate(['/simulacion']);
   }
 
