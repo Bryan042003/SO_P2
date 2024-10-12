@@ -5,6 +5,7 @@ import { Computer } from '../services/computer.service';
 import { Session } from '../modelos/session.model';
 import { Page } from '../modelos/pagina.model';
 
+
 @Component({
   selector: 'app-simulacion',
   standalone: true,
@@ -25,6 +26,10 @@ export class SimulacionComponent  {
   public datosm2_Real: Page[] = [];
   public datosm2_Virtual: Page[] = [];
   public datosm2: Page[] = [];
+  public datosRam: number[] = [];
+  public datosNumProcesos: number = 0;
+
+  public operacionesLeidas: string[] = [];
 
   processIdCounter: number = 1;
 
@@ -34,6 +39,7 @@ export class SimulacionComponent  {
   cantidadProcesos: number = 10;
   cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
+
 
 
   constructor(private memoryService: MMU,) {
@@ -78,25 +84,50 @@ export class SimulacionComponent  {
     //this.memoryService.showMemoryState();
   }
 
+  simulateComputer() {
+    // VAMOS A LEER EL ARCHIVO
+    // UNA VEZ LEEMOS EL ARCHIVO EJECUTAMOS EL EXECUTE Y LUEGO TRAER DATOS
+  }
+
   traerDatosmm2(){
+
+    // Datos MM1
+    /// Datos MMU2
     this.datosm2_Real = this.mmu2.getRealMemory().filter((page): page is Page => page !== null);
     this.datosm2_Virtual = this.mmu2.getVirtualMemory().filter((page): page is Page => page !== null);
-
     this.datosm2 = this.datosm2_Real.concat(this.datosm2_Virtual);
+
+    // Datos generales
+    this.datosRam = this.computer.getRAMPages()
+    this.datosNumProcesos = this.computer.getProcessNumber();
+
+    console.log('Datos MMU2:', this.datosRam);
+
   }
+
+  ejecutarOperaciones() {
+    this.operacionesLeidas = [];
+    this.operacionesLeidas = this.memoryService.obtenerOperaciones();
+    for (let i = 0; i < this.operacionesLeidas.length; i++) {
+      //console.log("operacion", this.operations[i]);
+      this.computer.executeInstruction(this.operacionesLeidas[i]);
+    }
+    this.traerDatosmm2();
+}
 
 
   // Método para probar la computadora
   probarComputer() {
     console.log("Ejecutando prueba de la computadora...");
+    this.ejecutarOperaciones();
+
 
     // Simulando procesos
-    console.log(`New1`);
-    this.computer.executeInstruction("new(1, 500)"); // Crear un nuevo proceso
-    this.traerDatosmm2();
-
-
-
+    //console.log(`New1`);
+    //this.computer.executeInstruction("new(1, 500)"); // Crear un nuevo proceso
+    //this.traerDatosmm2();
+    //console.log(`Kill`);
+    //this.computer.executeInstruction("kill(1)"); // Matar el proceso 2
 
     /*
     console.log(`New`);

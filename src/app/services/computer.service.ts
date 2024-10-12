@@ -1,5 +1,6 @@
 
 
+import { delay } from 'rxjs';
 import { Process } from '../modelos/process.model';
 import { Session } from '../modelos/session.model';
 import { MMU } from '../services/mmuservice.service';
@@ -16,6 +17,8 @@ class Computer {
     mainProcesses: Process[];
     otherProcesses: Process[];
     usedColors: [number, number, number][]; // Usar un array de colores RGB
+    operations: string[] = [];
+    public operacionesLeidas: string[] = [];
 
     constructor(mainMMU: MMU, otherMMU: MMU, session: Session) {
         this.instructionsPerSecond = 1;
@@ -49,7 +52,19 @@ class Computer {
         } else {
             console.log('Invalid operation');
         }
+
     }
+
+    async executeOperations(operaciones: string[]) {
+      this.operations = [];
+      this.operations = operaciones;
+      console.log("operations", this.operations);
+      for (let i = 0; i < this.operations.length; i++) {
+        //console.log("operacion", this.operations[i]);
+        this.executeInstruction(this.operations[i]);
+        await delay(3000);
+      }
+  }
 
     runNew(pid: number, size: number) {
         const color = this.generateRandomColor();
@@ -129,6 +144,10 @@ class Computer {
         ];
     }
 
+    getProcessNumber() {
+      return this.mainProcesses.length;
+    }
+
     getRAMPages() {
         const optPagesCount = this.mainMMU.realMemory.filter(page => page !== null).length;
         const otherPagesCount = this.otherMMU.realMemory.filter(page => page !== null).length;
@@ -155,7 +174,9 @@ class Computer {
         });
     }
 
-
+    getDate() {
+      // nos vamos a traer todos los datos desde aqui
+    }
 }
 
 export { Computer };

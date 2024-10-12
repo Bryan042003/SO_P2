@@ -17,6 +17,7 @@ export class MMU {
   totalTime: number;
   thrashingTime: number;
   private datos: any = {};
+  public operacionesLeidas: string[] = [];
 
   constructor() {
     this.realMemory = Array(100).fill(null); // Memoria real con 100 espacios
@@ -31,7 +32,7 @@ export class MMU {
 
   guardarDatos(datos: any): void {
     this.datos = datos;
-    console.log('Datos guardados MMU:', this.datos);
+    //console.log('Datos guardados MMU:', this.datos);
   }
 
   obtenerDatos(): any {
@@ -162,4 +163,15 @@ export class MMU {
   getVirtualMemory(): Page[] {
     return this.virtualMemory;
   }
+
+  guardarOperaciones(operaciones: string[]): void {
+    this.operacionesLeidas = [];
+    this.operacionesLeidas = operaciones;
+    console.log('Operaciones guardadas MMU:', this.operacionesLeidas);
+  }
+
+  obtenerOperaciones(): string[] {
+    return this.operacionesLeidas;
+  }
+
 }
