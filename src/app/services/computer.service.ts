@@ -1,5 +1,3 @@
-
-
 import { delay } from 'rxjs';
 import { Process } from '../modelos/process.model';
 import { Session } from '../modelos/session.model';
@@ -78,9 +76,9 @@ class Computer {
         this.usedColors.push(color);
 
         //console.log("process Op");
-        const optPointer = this.mainMMU.newProcess(pid, size);
+        const optPointer = this.mainMMU.newProcess(pid, size, color);
         //console.log("process normal");
-        const otherPointer = this.otherMMU.newProcess(pid, size);
+        const otherPointer = this.otherMMU.newProcess(pid, size, color);
 
         let exists = false;
         for (const process of this.mainProcesses) {
@@ -134,6 +132,9 @@ class Computer {
             this.mainMMU.killProcess(processToKill);
             this.otherMMU.killProcess(processToKill);
         }
+        //console.log("vemos vm");
+        //this.mainMMU.printVirtualMemory();
+        //console.log("vemos vm2");
     }
 
     getTime() {

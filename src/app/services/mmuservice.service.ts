@@ -21,18 +21,20 @@ export class MMU {
   public usedColors: [number, number, number][] | undefined;
   public virtualMemoryNew: Page[] = [];
   public realMemoryNew: Page[] = [];
+  public processIDKill: number = 0;
+
+  public alldataAlt: (number | [number, number, number] | Page)[][] = [];
 
   constructor() {
     this.realMemory = Array(100).fill(null); // Memoria real con 100 espacios
     //this.virtualMemoryNew = Array(100).fill(null).map(() => new Page());
-
     this.virtualMemory = [];
     this.memoryMap = new Map();
     this.pageCount = 0;
     this.pointerCount = 0;
     this.totalTime = 1;
     this.thrashingTime = 1;
-    this.fifoAlgorithm = new FIFO(100); // Capacidad de memoria de 5 páginas
+    this.fifoAlgorithm = new FIFO(100);
   }
 
   saveData(data: any): void {
@@ -49,7 +51,7 @@ export class MMU {
     this.fifoAlgorithm.memory = this.realMemory;
   }
 
-  newProcess(pid: number, size: number): number {
+  newProcess(pid: number, size: number, color: [number, number, number]): number {
     const pagesNeeded = Math.ceil(size / 4); // Se requieren las páginas necesarias para el proceso
     let insertedPages = 0;
     const createdPages: Page[] = [];
@@ -85,6 +87,10 @@ export class MMU {
         //console.log(`Página reemplazada: ${replacedPage.pageId}`); // Registro de la página reemplazada
       }
     }
+
+    const pagesArray = [pid, color, ...createdPages];
+    this.alldataAlt.push(pagesArray);
+    console.log("proceso creado", this.alldataAlt);
 
     //console.log(`Proceso con ${pagesNeeded} páginas agregado.`); // Registro del proceso agregado
     //this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de agregar el proceso
@@ -146,10 +152,13 @@ export class MMU {
   }
 
   killProcess(process: Process) {
+    this.processIDKill = process.pid;
     for (const pointer of process.pageTable) {
       this.deletePointer(pointer);
     }
     process.pageTable = [];
+    this.updateKILLMemoryRandV();
+    //console.log("limiando procso vmos")
     //this.printVirtualMemory(); // Imprimir estado de la memoria virtual después de eliminar un proceso
   }
 
@@ -187,6 +196,39 @@ export class MMU {
 
   getColors(): [number, number, number][] | undefined {
     return this.usedColors;
+  }
+
+  updateKILLMemoryRandV() {
+    const pidToRemove = this.processIDKill;
+
+    // Filtrar para eliminar el subarreglo que comienza con el PID a eliminar
+    this.alldataAlt = this.alldataAlt.filter((pages) => pages[0] !== pidToRemove);
+
+    this.virtualMemory = [];
+    this.realMemory = Array(100).fill(null);
+
+    // actualizar virtualMemory y realMemory
+    this.alldataAlt.forEach((pages) => {
+        const pid = pages[0];
+        const pageList = pages.slice(1);
+
+        pageList.forEach((page) => {
+            page = page as Page;
+            if (page.positionFlag) {
+                this.realMemory[page.physicalAddress] = page;
+            } else {
+                this.virtualMemory.push(page);
+            }
+        });
+    });
+
+    this.virtualMemoryNew = this.virtualMemory.filter((page): page is Page => page !== null);
+    this.realMemoryNew = this.realMemory.filter((page): page is Page => page !== null);
+    console.log("alldata en kill", this.alldataAlt);
+  }
+
+  getAllDataAlt() {
+    return this.alldataAlt;
   }
 
 }
