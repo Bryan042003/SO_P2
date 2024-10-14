@@ -18,6 +18,10 @@ class Computer {
     operations: string[] = [];
     currentProcess: number = 0;
     algorithm: string = '';
+    ramUsedKB: number = 0;
+    ramPercentage: number = 0;
+    vramUsedKB: number = 0;
+    vramPercentage: number = 0;
 
     constructor(mainMMU: MMU, otherMMU: MMU, session: Session) {
         this.instructionsPerSecond = 1;
@@ -149,8 +153,16 @@ class Computer {
         return this.mainMMU.getTime();
     }
 
+    getFragmentation() {
+        return this.mainMMU.getFragmentation();
+    }
+
     getThrashingTime() {
         return this.mainMMU.getThrashingTime();
+    }
+
+    getThrashingPercentage(): number {
+        return (this.getThrashingTime() / this.getTime()) * 100;
     }
 
     getVRAMSize() {
@@ -159,6 +171,27 @@ class Computer {
             this.otherMMU.virtualMemory.length
         ];
     }
+
+    getRAMUsed(){
+        this.ramUsedKB = this.mainMMU.realMemory.length * this.pageSize;
+        return this.ramUsedKB;
+    }
+
+    getRAMUsagePercentage(){
+        this.ramPercentage = (this.ramUsedKB / this.RAMSize) * 100;
+        return this.ramPercentage;
+    }
+
+    getVRAMUsed(){
+        this.vramUsedKB = this.mainMMU.virtualMemory.length * this.pageSize;
+        return this.vramUsedKB;
+    }
+
+    getVRAMUsagePercentage(){
+        this.vramPercentage = (this.vramUsedKB / this.RAMSize) * 100;
+        return this.vramPercentage;
+    }
+
 
     getProcessNumber() {
       return this.mainProcesses.length;

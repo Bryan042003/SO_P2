@@ -30,6 +30,18 @@ export class SimulacionComponent  {
   public processByID: Process | undefined;
   public usedColors: [number, number, number][] | undefined
 
+  public simTime: number = 0;
+   public ramUsedKB: number = 0;
+   public ramPercentage: number = 0;
+   public vramUsedKB: number = 0;
+   public vramPercentage: number = 0;
+   public pagesLoaded: number[] = [];
+   public pagesUnloaded: number = 0;
+   public trashingTime: number = 0;
+   public trashingPercentage: number = 0;
+   public fragmentation: number = 0;
+
+
   public alldataMMUOPT: (number | [number, number, number] | Page)[][] = [];
   public alldataMMUNormal: (number | [number, number, number] | Page)[][] = [];
 
@@ -92,6 +104,17 @@ export class SimulacionComponent  {
     this.dataRam = this.computer.getRAMPages();
     this.dataNumProcess = this.computer.getProcessNumber();
     this.currentProcess = this.computer.getCurrentProcess();
+
+    this.simTime = this.computer.getTime(); // Obtener el tiempo de simulación
+    this.ramUsedKB = this.computer.getRAMUsed(); // RAM utilizada en KB
+    this.ramPercentage = this.computer.getRAMUsagePercentage(); // RAM utilizada en porcentaje
+    this.vramUsedKB = this.computer.getVRAMUsed(); // V-RAM utilizada en KB
+    this.vramPercentage = this.computer.getVRAMUsagePercentage(); // V-RAM utilizada en porcentaje
+    this.pagesLoaded = this.computer.getRAMPages(); // Páginas cargadas
+    //this.pagesUnloaded = this.computer.getPagesUnloaded(); // Páginas descargadas
+    this.trashingTime = this.computer.getThrashingTime(); // Tiempo de thrashing
+    this.trashingPercentage = this.computer.getThrashingPercentage();
+    this.fragmentation = this.computer.getFragmentation(); // Fragmentación
 
   }
 

@@ -5,3 +5,7 @@
 div::-webkit-scrollbar {
     display: none;
 }
+
+.text-danger {
+    color: red;
+}

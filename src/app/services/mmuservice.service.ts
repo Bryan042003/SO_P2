@@ -22,6 +22,7 @@ export class MMU {
   public virtualMemoryNew: Page[] = [];
   public realMemoryNew: Page[] = [];
   public processIDKill: number = 0;
+  public totalFragmentationWaste: number = 0;
   algorithmSelected: string = '';
   algorithm: any;
 
@@ -73,6 +74,11 @@ export class MMU {
     const pagesNeeded = Math.ceil(size / 4); // Se requieren las páginas necesarias para el proceso
     let insertedPages = 0;
     const createdPages: Page[] = [];
+
+    const fragmentationInternal = size % 4;
+ 
+     // Acumular la fragmentación interna
+     this.totalFragmentationWaste += fragmentationInternal;
 
     for (let pageCounter = 0; pageCounter < pagesNeeded; pageCounter++) {
       let pageInserted = false;
@@ -194,6 +200,10 @@ export class MMU {
 
   getVirtualMemory(): Page[] {
     return this.virtualMemory;
+  }
+
+  getFragmentation(): number {
+    return this.totalFragmentationWaste;
   }
 
   saveOperations(operaciones: string[]): void {
