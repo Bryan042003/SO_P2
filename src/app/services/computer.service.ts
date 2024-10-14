@@ -17,6 +17,7 @@ class Computer {
     usedColors: [number, number, number][]; // Usar un array de colores RGB
     operations: string[] = [];
     currentProcess: number = 0;
+    algorithm: string = '';
 
     constructor(mainMMU: MMU, otherMMU: MMU, session: Session) {
         this.instructionsPerSecond = 1;
@@ -30,6 +31,13 @@ class Computer {
         this.mainProcesses = [];
         this.otherProcesses = [];
         this.usedColors = [];
+    }
+
+    saveAlgorithmComputer(algorithm: string) {
+      this.algorithm = algorithm;
+      this.mainMMU.setAlgorithm(algorithm);
+      this.otherMMU.setAlgorithm(algorithm);
+      //console.log("algoritmo computer", this.algorithm);
     }
 
     executeInstruction(operation: string) {

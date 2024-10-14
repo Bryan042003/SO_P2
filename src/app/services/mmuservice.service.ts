@@ -11,7 +11,7 @@ export class MMU {
   realMemory: (Page | null)[]; // La memoria real contiene páginas o espacios vacíos (null)
   virtualMemory: Page[]; // Memoria virtual para páginas no cargadas en memoria real
   memoryMap: Map<number, Page[]>; // Mapa de punteros a tablas de páginas
-  fifoAlgorithm: FIFO; // Algoritmo FIFO para el reemplazo de páginas
+  //fifoAlgorithm: FIFO; // Algoritmo FIFO para el reemplazo de páginas
   pageCount: number;
   pointerCount: number;
   totalTime: number;
@@ -22,6 +22,8 @@ export class MMU {
   public virtualMemoryNew: Page[] = [];
   public realMemoryNew: Page[] = [];
   public processIDKill: number = 0;
+  algorithmSelected: string = '';
+  algorithm: any;
 
   public alldataAlt: (number | [number, number, number] | Page)[][] = [];
 
@@ -34,21 +36,37 @@ export class MMU {
     this.pointerCount = 0;
     this.totalTime = 1;
     this.thrashingTime = 1;
-    this.fifoAlgorithm = new FIFO(100);
+    //this.fifoAlgorithm = new FIFO(100);
+    this.algorithm = this.setAlgorithm();
   }
 
   saveData(data: any): void {
     this.data = data;
-    //console.log('Datos guardados MMU:', this.datos);
+    console.log('Datos guardados MMU:', this.data);
+  }
+
+  setAlgorithm(algorithmNew: string = '') {
+    this.algorithmSelected = algorithmNew;
+    //console.log("algoritmo EN MMU3", this.algorithmSelected)
+
+    if (this.algorithmSelected === 'FIFO') {
+      console.log("fifo selecionado");
+      this.algorithm = new FIFO();
+    } else if (this.algorithmSelected === 'SC') {
+      console.log("sc selecionado");
+
+    } else if (this.algorithmSelected === 'MRU') {
+      console.log("mru selecionado");
+
+    } else if (this.algorithmSelected === 'RND') {
+      console.log("rnd selecionado");
+    }
+
+    return this.algorithm;
   }
 
   getData(): any {
     return this.data;
-  }
-
-  setAlgorithm(algorithm: FIFO) {
-    this.fifoAlgorithm = algorithm;
-    this.fifoAlgorithm.memory = this.realMemory;
   }
 
   newProcess(pid: number, size: number, color: [number, number, number]): number {
@@ -77,7 +95,7 @@ export class MMU {
       if (!pageInserted) {
         const page = new Page(this.pageCount, -1, false); // Página en memoria virtual
         this.pageCount++;
-        const [replacedPage, time] = this.fifoAlgorithm.referencePage(page);
+        const [replacedPage, time] = this.algorithm.referencePage(page);
         page.positionFlag = false;
         this.virtualMemory.push(page);
         createdPages.push(page);
@@ -115,7 +133,7 @@ export class MMU {
     const pages = this.memoryMap.get(pointer) || [];
 
     for (const page of pages) {
-      const [newPage, time] = this.fifoAlgorithm.referencePage(page);
+      const [newPage, time] = this.algorithm.referencePage(page);
       page.lastAccess = this.totalTime;
 
       if (newPage) {
@@ -137,7 +155,7 @@ export class MMU {
 
     for (const page of pages) {
       if (page.positionFlag) {
-        this.fifoAlgorithm.delete(page);
+        this.algorithm.delete(page);
         this.realMemory[page.physicalAddress] = null;
         this.totalTime++;
       } else {

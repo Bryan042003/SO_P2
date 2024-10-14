@@ -24,7 +24,6 @@ export class MenuPrincipalComponent {
   fileName: string = '';
   public operacionesLeidas: string[] = [];
 
-
   constructor(private memoryService: MMU, private router:Router) {}
 
   // leer el archivo
@@ -80,7 +79,7 @@ export class MenuPrincipalComponent {
       cantidadOperaciones: this.cantidadOperaciones,
       fileName: this.fileName
     };
-    console.log('Datos capturados:', datos);
+    //console.log('Datos capturados:', datos);
     this.memoryService.saveData(datos);
     this.memoryService.saveOperations(this.operacionesLeidas);
   }

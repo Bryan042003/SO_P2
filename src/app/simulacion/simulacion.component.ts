@@ -42,7 +42,7 @@ export class SimulacionComponent  {
   cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
 
-  constructor(private memoryService: MMU,) {
+  constructor(private memoryService: MMU) {
     // Crea el objeto de sesión usando this.operations
     const sessionData = new Session(this.operations.length, this.operations);
     this.computer = new Computer(this.mmu1, this.mmu2, sessionData);
@@ -52,11 +52,15 @@ export class SimulacionComponent  {
      // Crear un arreglo de 100 elementos
      this.columns = Array.from({ length: 72 }, (_, index) => index + 1);
      this.datos = this.memoryService.getData();
+     //console.log("en simulation", this.datos);
      //console.log('Datos obtenidos desde MMU:', this.datos);
      // Simular procesos y accesos a la memoria
      //this.MMUsimulation();
      // Ejecutar prueba de la computadora
+     this.computer.saveAlgorithmComputer(this.datos.algoritmoSeleccionado);
      this.computerSimulation();
+     //console.log("algoritmo", this.datos.algoritmoSeleccionado);
+     //this.computer.mainMMU.chooseAlgorithm(this.datos.algorithm);
   }
 
   // Simulación de la MMU
