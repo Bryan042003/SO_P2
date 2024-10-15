@@ -79,6 +79,11 @@ export class MMU {
     let insertedPages = 0;
     const createdPages: Page[] = [];
 
+    const fragmentationInternal = size % 4;
+
+    // Acumular la fragmentación interna
+    this.totalFragmentationWaste += fragmentationInternal;
+
     for (let pageCounter = 0; pageCounter < pages; pageCounter++) {
         for (let spaceInRealMemory = 0; spaceInRealMemory < this.realMemory.length; spaceInRealMemory++) {
             if (this.realMemory[spaceInRealMemory] === null) {
