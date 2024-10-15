@@ -30,8 +30,8 @@ class Computer {
         this.hardDrive = 999999;
         this.pageSize = 4; // KB
         this.session = session;
-        this.mainMMU = mainMMU;
-        this.otherMMU = otherMMU;
+        this.mainMMU = mainMMU; // opT
+        this.otherMMU = otherMMU;  // normal
         this.mainProcesses = [];
         this.otherProcesses = [];
         this.usedColors = [];
@@ -39,7 +39,7 @@ class Computer {
 
     saveAlgorithmComputer(algorithm: string) {
       this.algorithm = algorithm;
-      this.mainMMU.setAlgorithm(algorithm);
+      this.mainMMU.setAlgorithm("OPT"); // mmu Optima
       this.otherMMU.setAlgorithm(algorithm);
       //console.log("algoritmo computer", this.algorithm);
     }
@@ -117,9 +117,11 @@ class Computer {
         }
 
         //this.otherMMU.printVirtualMemory();
+        this.checkData();
     }
 
     runUse(ptr: number) {
+      console.log("entramos a use en computer")
         this.mainMMU.usePointer(ptr);
         this.otherMMU.usePointer(ptr);
     }
@@ -233,6 +235,13 @@ class Computer {
 
     getDate() {
       // nos vamos a traer todos los datos desde aqui
+    }
+
+    checkData(){
+      console.log("tamooooo")
+      console.log("Datos en MMU OPT:", this.mainMMU.alldataAlt);
+      console.log("Datos en MMU FIFO:", this.otherMMU.alldataAlt);
+
     }
 }
 

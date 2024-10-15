@@ -158,10 +158,13 @@ export class SimulacionComponent  {
     // mmu Normal
     this.alldataMMUNormal = [];
     this.getALLDataMMUNormal();
+    console.log("alldataMMUNormal", this.alldataMMUNormal);
     //console.log("alldataMMUNormal", this.alldataMMUNormal);
 
     // mmu OPt
     this.alldataMMUOPT = [];
+    this.getALLDataMMUOpt();
+    console.log("alldataMMUOPT", this.alldataMMUOPT);
 
   }
 
@@ -188,6 +191,10 @@ export class SimulacionComponent  {
 
   getALLDataMMUNormal() {
     this.alldataMMUNormal = this.mmu2.getAllDataAlt();
+  }
+
+  getALLDataMMUOpt() {
+    this.alldataMMUOPT = this.mmu1.getAllDataAlt();
   }
 
   isColorArray(value: any): value is [number, number, number] {

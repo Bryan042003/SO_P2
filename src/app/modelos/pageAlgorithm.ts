@@ -4,10 +4,12 @@ import { Page } from "./pagina.model";
 export class PageAlgorithm {
   memoryCapacity: number;
   memory: (Page | null)[];  // Acepta valores null
-  
+  totalTime: number;
+
   constructor(memoryCapacity: number = 100) {
     this.memoryCapacity = memoryCapacity;
     this.memory = [];
+    this.totalTime = 0;
   }
 
   referencePage(page: Page): [Page | null, number] {
@@ -22,7 +24,7 @@ export class PageAlgorithm {
     console.log("Memory content:");
     this.memory.forEach(page => {
       if (page) {
-        console.log(`Page ${page.pageId}`);
+        console.log(`Page ${page.pageId}`, `loaded ${page.positionFlag}`);
       }
     });
   }
