@@ -8,6 +8,12 @@
         <input type="number" [(ngModel)]="semilla" name="semilla" id="semilla" min="0" style="border: none;">
       </div>
 
+      <div style=" width: 100%; display: flex; align-items: center; justify-content: center; margin: 20px 0px 20px 0px;">
+        <a (click)=" generateOperations(semilla)"><button
+            style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;">
+            Generar Archivo</button></a>
+      </div>
+
       <div style="background-color: white; padding:10px;margin: 10px;">
         <label for="opciones">Seleccionar Algoritmo</label>
         <select [(ngModel)]="algoritmoSeleccionado" id="opciones">
@@ -36,6 +42,8 @@
         </select>
       </div>
 
+
+
       <div style="background-color: white; padding:10px;margin: 10px;">
         <input type="text" [value]="fileName || 'Seleccionar archivo'"
           style="font-size: 16px; border: none; background-color: transparent;">
@@ -48,9 +56,9 @@
     </div>
 
     <div style="margin: 40px;">
-      <a  (click)="guardarDatos(); gotoSimulation()"   ><button
-        style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;"
-         > Ejecutar</button></a>
+      <a (click)="guardarDatos(); gotoSimulation()"><button
+          style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;">
+          Ejecutar</button></a>
     </div>
   </div>
 </div>

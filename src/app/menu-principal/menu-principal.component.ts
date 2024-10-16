@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { Computer } from '../services/computer.service';
 import { Session } from '../modelos/session.model';
 import { Router } from '@angular/router';
+import seedrandom from 'seedrandom';
 
 @Component({
   selector: 'app-menu-principal',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
   templateUrl: './menu-principal.component.html',
   styleUrls: ['./menu-principal.component.css']
 })
+
 export class MenuPrincipalComponent {
   processIdCounter: number = 1;
 
@@ -24,7 +26,7 @@ export class MenuPrincipalComponent {
   fileName: string = '';
   public operacionesLeidas: string[] = [];
 
-  constructor(private memoryService: MMU, private router:Router) {}
+  constructor(private memoryService: MMU, private router: Router) { }
 
   // leer el archivo
   readShowFileName(event: any): void {
@@ -82,6 +84,8 @@ export class MenuPrincipalComponent {
     //console.log('Datos capturados:', datos);
     this.memoryService.saveData(datos);
     this.memoryService.saveOperations(this.operacionesLeidas);
+    //this.generateOperations(1);
+
   }
 
   gotoSimulation(): void {
@@ -89,5 +93,107 @@ export class MenuPrincipalComponent {
   }
 
 
+  generateOperations(seed: number): string[] {
+    console.log('Generando operaciones con semilla:', seed);
+
+    const operations: string[] = [];
+
+    // Generador de números aleatorios basado en la semilla
+    const random = (min: number, max: number) => {
+      seed = (seed * 48271) % 2147483647; // Múltiplo de 2^31 - 1
+      return Math.floor(Math.abs(seed) % (max - min + 1)) + min;
+    };
+
+    const numProcesses = this.cantidadProcesos;
+    console.log('Cantidad de procesos:', numProcesses);
+    const maxOperations = this.cantidadOperaciones;
+    console.log('Cantidad de operaciones:', maxOperations);
+    
+    const randomProb = () => random(0, 100) / 100; // Generador de probabilidades (0 a 1)
+
+
+    const processes = new Map<number, { pointers: number[], deleted: boolean, killed: boolean }>();
+
+    // Inicializa la información de los procesos
+    for (let i = 1; i <= numProcesses; i++) {
+      processes.set(i, { pointers: [], deleted: false, killed: false });
+    }
+
+    let totalOperations = 0;
+
+    while (totalOperations < maxOperations) {
+      const processId = random(1, numProcesses);
+      const processInfo = processes.get(processId)!;
+
+      const probability = randomProb(); // Obtener una probabilidad aleatoria entre 0 y 1
+
+      // Asignamos probabilidades a las operaciones
+      if (probability <= 0.4) { // 40% de probabilidad para "new"
+        if (!processInfo.killed && !processInfo.deleted) {
+          const ptr = random(1, 10000); // Suponiendo que el puntero es un número aleatorio
+          processInfo.pointers.push(ptr);
+          operations.push(`new(${processId},${ptr})`);
+          console.log('new', processId, ptr);
+        }
+
+      } else if (probability <= 0.7) { // 30% de probabilidad para "use"
+        // Generar operación "use"
+        if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
+          const ptrToUse = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
+          operations.push(`use(${ptrToUse})`);
+          console.log('use', ptrToUse);
+
+        }
+      } else if (probability <= 0.9) { // 20% de probabilidad para "delete"
+        // Generar operación "delete"
+        if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
+          const ptrToDelete = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
+          operations.push(`delete(${ptrToDelete})`);
+          console.log('delete', ptrToDelete);
+          processInfo.deleted = true; // Marcamos que se ha eliminado el puntero
+
+        }
+      } else { // 10% de probabilidad para "kill"
+        // Generar operación "kill"
+        if (!processInfo.killed && processInfo.pointers.length > 0) {
+          operations.push(`kill(${processId})`);
+          console.log('kill', processId);
+          processInfo.killed = true; // Marcamos que el proceso ha sido terminado
+
+        }
+      }
+      totalOperations++;
+    }
+    // Verifica si hay procesos no asesinados y agrega su "kill" si es necesario
+    processes.forEach((processInfo, processId) => {
+      if (!processInfo.killed) {
+        operations.push(`kill(${processId})`);
+        console.log('kill', processId);
+      }
+    });
+
+    console.log(processes);
+    this.rearArchivo(operations);
+
+    return operations;
+  }
+
+  rearArchivo(operaciones: string[]): void {
+    const texto = operaciones.join('\n');
+    const blob = new Blob([texto], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'operaciones.txt';
+    document.body.appendChild(a);
+    a.click();
+  
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
+
+
+
 }
+
 
