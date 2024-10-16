@@ -3,6 +3,7 @@ import { FIFO } from '../algoritmos/FIFO';
 import { Page } from '../modelos/pagina.model';
 import { Process } from '../modelos/process.model';
 import { OPT } from '../algoritmos/OPT';
+import { RND } from '../algoritmos/RND';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,7 @@ export class MMU {
 
     } else if (this.algorithmSelected === 'RND') {
       console.log("rnd selecionado");
+      this.algorithm = new RND();
     } else if (this.algorithmSelected === 'OPT') {
       this.algorithm = new OPT();
       console.log("opt selecionado");
