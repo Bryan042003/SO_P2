@@ -5,6 +5,7 @@ import { Process } from '../modelos/process.model';
 import { OPT } from '../algoritmos/OPT';
 import { RND } from '../algoritmos/RND';
 import { SecondChance } from '../algoritmos/SecondChance';
+import { MRU } from '../algoritmos/MRU';
 
 @Injectable({
   providedIn: 'root'
@@ -59,10 +60,9 @@ export class MMU {
     } else if (this.algorithmSelected === 'SC') {
       console.log("sc selecionado");
       this.algorithm = new SecondChance();
-
     } else if (this.algorithmSelected === 'MRU') {
       console.log("mru selecionado");
-
+      this.algorithm = new MRU();
     } else if (this.algorithmSelected === 'RND') {
       console.log("rnd selecionado");
       this.algorithm = new RND();
