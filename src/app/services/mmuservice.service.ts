@@ -4,6 +4,7 @@ import { Page } from '../modelos/pagina.model';
 import { Process } from '../modelos/process.model';
 import { OPT } from '../algoritmos/OPT';
 import { RND } from '../algoritmos/RND';
+import { SecondChance } from '../algoritmos/SecondChance';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,7 @@ export class MMU {
       this.algorithm = new FIFO();
     } else if (this.algorithmSelected === 'SC') {
       console.log("sc selecionado");
+      this.algorithm = new SecondChance();
 
     } else if (this.algorithmSelected === 'MRU') {
       console.log("mru selecionado");
