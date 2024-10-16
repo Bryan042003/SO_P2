@@ -152,57 +152,96 @@ class Computer {
     }
 
     getTime() {
-        return this.mainMMU.getTime();
+        return {
+            mainMMU: this.mainMMU.getTime(),
+            otherMMU: this.otherMMU.getTime(),
+        };
     }
-
+    
     getFragmentation() {
-        return this.mainMMU.getFragmentation();
+        return {
+            mainMMU: this.mainMMU.getFragmentation(),
+            otherMMU: this.otherMMU.getFragmentation(),
+        };
     }
-
+    
     getThrashingTime() {
-        return this.mainMMU.getThrashingTime();
+        return {
+            mainMMU: this.mainMMU.getThrashingTime(),
+            otherMMU: this.otherMMU.getThrashingTime(),
+        };
     }
-
-    getThrashingPercentage(): number {
-        return (this.getThrashingTime() / this.getTime()) * 100;
+    
+    getThrashingPercentage(): { mainMMU: number, otherMMU: number } {
+        return {
+            mainMMU: (this.mainMMU.getThrashingTime() / this.mainMMU.getTime()) * 100,
+            otherMMU: (this.otherMMU.getThrashingTime() / this.otherMMU.getTime()) * 100,
+        };
     }
-
+    
     getVRAMSize() {
-        return [
-            this.mainMMU.virtualMemory.length,
-            this.otherMMU.virtualMemory.length
-        ];
+        return {
+            mainMMU: this.mainMMU.virtualMemory.length,
+            otherMMU: this.otherMMU.virtualMemory.length,
+        };
     }
-
-    getRAMUsed(){
-        this.ramUsedKB = this.mainMMU.realMemory.length * this.pageSize;
-        return this.ramUsedKB;
+    
+    getRAMUsed() {
+        return {
+            mainMMU: this.mainMMU.realMemory.length * this.pageSize,
+            otherMMU: this.otherMMU.realMemory.length * this.pageSize,
+        };
     }
-
-    getRAMUsagePercentage(){
-        this.ramPercentage = (this.ramUsedKB / this.RAMSize) * 100;
-        return this.ramPercentage;
+    
+    getRAMUsagePercentage() {
+        return {
+            mainMMU: (this.mainMMU.realMemory.length * this.pageSize) / this.RAMSize * 100,
+            otherMMU: (this.otherMMU.realMemory.length * this.pageSize) / this.RAMSize * 100,
+        };
     }
-
-    getVRAMUsed(){
-        this.vramUsedKB = this.mainMMU.virtualMemory.length * this.pageSize;
-        return this.vramUsedKB;
+    
+    getVRAMUsed() {
+        return {
+            mainMMU: this.mainMMU.virtualMemory.length * this.pageSize,
+            otherMMU: this.otherMMU.virtualMemory.length * this.pageSize,
+        };
     }
-
-    getVRAMUsagePercentage(){
-        this.vramPercentage = (this.vramUsedKB / this.RAMSize) * 100;
-        return this.vramPercentage;
+    
+    getVRAMUsagePercentage() {
+        return {
+            mainMMU: (this.mainMMU.virtualMemory.length * this.pageSize) / this.RAMSize * 100,
+            otherMMU: (this.otherMMU.virtualMemory.length * this.pageSize) / this.RAMSize * 100,
+        };
     }
-
-
+    
     getProcessNumber() {
-      return this.mainProcesses.length;
+        return {
+            mainMMU: this.mainProcesses.length,
+            otherMMU: this.otherProcesses.length,
+        };
     }
-
+    
     getRAMPages() {
-        const optPagesCount = this.mainMMU.realMemory.filter(page => page !== null).length;
-        const otherPagesCount = this.otherMMU.realMemory.filter(page => page !== null).length;
-        return [optPagesCount, otherPagesCount];
+        const totalPages = this.RAMSize / this.pageSize;  // Total de páginas disponibles en la RAM
+    
+        // Páginas cargadas en mainMMU y otherMMU
+        const mainPagesLoaded = this.mainMMU.realMemory.filter(page => page !== null).length;
+        const otherPagesLoaded = this.otherMMU.realMemory.filter(page => page !== null).length;
+    
+        // Páginas no cargadas en mainMMU y otherMMU
+        const mainPagesUnloaded = totalPages - mainPagesLoaded;
+        const otherPagesUnloaded = totalPages - otherPagesLoaded;
+    
+        return {
+            mainMMU: {
+                loaded: mainPagesLoaded,
+                unloaded: mainPagesUnloaded
+            },
+            otherMMU: {
+                loaded: otherPagesLoaded,
+                unloaded: otherPagesUnloaded
+            }
+        };
     }
 
     private generateRandomColor(): [number, number, number] {

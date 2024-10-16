@@ -199,6 +199,7 @@
     <div class="row" style="width: 100%; padding: 10px;">
 
         <div class="col" style="width: 100%; height: 100%; padding: 0px 40px 0px 40px">
+
             <div class="row " style="margin: 5px;">
                 <div class="col">
                     <div class="row"
@@ -207,7 +208,7 @@
                     </div>
                     <div class="row"
                         style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        5
+                        {{dataNumProcess[0]}}
                     </div>
                 </div>
                 <div class="col">
@@ -217,7 +218,7 @@
                     </div>
                     <div class="row"
                         style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        5
+                        {{simTime[0]}}
                     </div>
                 </div>
             </div>
@@ -233,7 +234,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                5
+                                {{ramUsedKB[0]}}
                             </div>
 
                         </div>
@@ -244,7 +245,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                5
+                                {{ramPercentage[0]}}
                             </div>
                         </div>
                     </div>
@@ -259,7 +260,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                5
+                                {{vramUsedKB[0]}}
                             </div>
 
                         </div>
@@ -270,7 +271,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                5
+                                {{vramPercentage[0]}}
                             </div>
                         </div>
                     </div>
@@ -293,7 +294,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;">
-                                2
+                                {{dataRam[0]}}
                             </div>
                         </div>
                         <div class="col">
@@ -303,24 +304,24 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                2
+                                {{dataRam[2]}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col" style="width: 100%;height: 100%; background-color:#ffc7ce; color: red; ;">
+                <div class="col" style="width: 100%;height: 100%; color: black;">
                     <div class="row"
                         style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;text-align: center;">
                         <strong>Trashing</strong>
                     </div>
                     <div class="row" style="height: 100%;">
                         <div class="col"
-                            style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center; ">
-                            <strong>150s</strong>
-                        </div>
-                        <div class="col"
                             style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center;">
-                            <strong>60%</strong>
+                            <strong>{{trashingTime[0]}}</strong>
+                        </div>
+                        <div class="col" style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;"
+                            [ngClass]="{'text-danger': trashingPercentage[0] > 50}">
+                            <strong>{{ trashingPercentage[0].toFixed(2)}}%</strong>
                         </div>
                     </div>
                 </div>
@@ -328,11 +329,11 @@
                 <div class="col" style="width: 100%;height: 100%;">
                     <div class="row"
                         style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        fragmentación
+                        Fragmentación
                     </div>
                     <div class="row"
                         style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
-                        256 KB
+                        {{fragmentation[0]}}
                     </div>
                 </div>
             </div>
@@ -352,7 +353,7 @@
                     </div>
                     <div class="row"
                         style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        {{dataNumProcess}}
+                        {{dataNumProcess[1]}}
                     </div>
                 </div>
                 <div class="col">
@@ -362,7 +363,7 @@
                     </div>
                     <div class="row"
                         style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        {{simTime}}
+                        {{simTime[1]}}
                     </div>
                 </div>
             </div>
@@ -378,7 +379,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{ramUsedKB}}
+                                {{ramUsedKB[1]}}
                             </div>
 
                         </div>
@@ -389,7 +390,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{ramPercentage}}
+                                {{ramPercentage[1]}}
                             </div>
                         </div>
                     </div>
@@ -404,7 +405,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{vramUsedKB}}
+                                {{vramUsedKB[1]}}
                             </div>
 
                         </div>
@@ -415,7 +416,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{vramPercentage}}
+                                {{vramPercentage[1]}}
                             </div>
                         </div>
                     </div>
@@ -438,7 +439,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;">
-                                {{pagesLoaded[0]}}
+                                {{dataRam[1]}}
                             </div>
                         </div>
                         <div class="col">
@@ -448,7 +449,7 @@
                             </div>
                             <div class="row"
                                 style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                2
+                                {{dataRam[3]}}
                             </div>
                         </div>
                     </div>
@@ -461,11 +462,11 @@
                     <div class="row" style="height: 100%;">
                         <div class="col"
                             style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center;">
-                            <strong>{{trashingTime}}</strong>
+                            <strong>{{trashingTime[1]}}</strong>
                         </div>
                         <div class="col" style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;"
-                            [ngClass]="{'text-danger': trashingPercentage > 50}">
-                            <strong>{{ trashingPercentage.toFixed(2)}}%</strong>
+                            [ngClass]="{'text-danger': trashingPercentage[1] > 50}">
+                            <strong>{{ trashingPercentage[1].toFixed(2)}}%</strong>
                         </div>
                     </div>
                 </div>
@@ -477,7 +478,7 @@
                     </div>
                     <div class="row"
                         style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
-                        {{fragmentation}}
+                        {{fragmentation[1]}}
                     </div>
                 </div>
             </div>

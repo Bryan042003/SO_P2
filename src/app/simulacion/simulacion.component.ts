@@ -22,7 +22,7 @@ export class SimulacionComponent  {
   private mmu1 = new MMU();
   private mmu2 = new MMU();
   public dataRam: number[] = [];
-  public dataNumProcess: number = 0;
+  public dataNumProcess: number[] = [];
   public textOperations: string[] = [];
   public currentProcess: number = 0;
   public processDataMM1: Process[] = [];
@@ -30,16 +30,17 @@ export class SimulacionComponent  {
   public processByID: Process | undefined;
   public usedColors: [number, number, number][] | undefined
 
-  public simTime: number = 0;
-   public ramUsedKB: number = 0;
-   public ramPercentage: number = 0;
-   public vramUsedKB: number = 0;
-   public vramPercentage: number = 0;
+  public simTime: number[] = [];
+   public ramUsedKB: number[] = [];
+   public ramPercentage: number[] = [];
+   public vramUsedKB: number[] = [];
+   public vramPercentage: number[] = [];
    public pagesLoaded: number[] = [];
-   public pagesUnloaded: number = 0;
-   public trashingTime: number = 0;
-   public trashingPercentage: number = 0;
-   public fragmentation: number = 0;
+   public pagesUnloaded: number[] = [];
+   public trashingTime: number[] = [];
+   public trashingPercentage: number[] = [];
+   public fragmentation: number[] = [];
+   public fragmentationOpt: number[] = [];
 
 
   public alldataMMUOPT: (number | [number, number, number] | Page)[][] = [];
@@ -100,22 +101,48 @@ export class SimulacionComponent  {
     this.getPDataMM2();
     this.frontData();
 
-    // Datos generales
-    this.dataRam = this.computer.getRAMPages();
-    this.dataNumProcess = this.computer.getProcessNumber();
+    // Datos de RAM
+    const ramPages = this.computer.getRAMPages();
+    this.dataRam = [ramPages.mainMMU.loaded, ramPages.otherMMU.loaded, ramPages.mainMMU.unloaded, ramPages.otherMMU.unloaded];
+
+    // Número de procesos
+    const processNum = this.computer.getProcessNumber();
+    this.dataNumProcess = [processNum.mainMMU, processNum.otherMMU];
+
+    // Proceso actual
     this.currentProcess = this.computer.getCurrentProcess();
 
-    this.simTime = this.computer.getTime(); // Obtener el tiempo de simulación
-    this.ramUsedKB = this.computer.getRAMUsed(); // RAM utilizada en KB
-    this.ramPercentage = this.computer.getRAMUsagePercentage(); // RAM utilizada en porcentaje
-    this.vramUsedKB = this.computer.getVRAMUsed(); // V-RAM utilizada en KB
-    this.vramPercentage = this.computer.getVRAMUsagePercentage(); // V-RAM utilizada en porcentaje
-    this.pagesLoaded = this.computer.getRAMPages(); // Páginas cargadas
-    //this.pagesUnloaded = this.computer.getPagesUnloaded(); // Páginas descargadas
-    this.trashingTime = this.computer.getThrashingTime(); // Tiempo de thrashing
-    this.trashingPercentage = this.computer.getThrashingPercentage();
-    this.fragmentation = this.computer.getFragmentation(); // Fragmentación
+    // Tiempo de simulación
+    const time = this.computer.getTime();
+    this.simTime = [time.mainMMU, time.otherMMU];
 
+    // RAM usada
+    const ramUsed = this.computer.getRAMUsed();
+    this.ramUsedKB = [ramUsed.mainMMU, ramUsed.otherMMU];
+
+    // Porcentaje de RAM usada
+    const ramPercentage = this.computer.getRAMUsagePercentage();
+    this.ramPercentage = [ramPercentage.mainMMU, ramPercentage.otherMMU];
+
+    // VRAM usada
+    const vramUsed = this.computer.getVRAMUsed();
+    this.vramUsedKB = [vramUsed.mainMMU, vramUsed.otherMMU];
+
+    // Porcentaje de VRAM usada
+    const vramPercentage = this.computer.getVRAMUsagePercentage();
+    this.vramPercentage = [vramPercentage.mainMMU, vramPercentage.otherMMU];
+
+    // Tiempo de thrashing
+    const trashingTime = this.computer.getThrashingTime();
+    this.trashingTime = [trashingTime.mainMMU, trashingTime.otherMMU];
+
+    // Porcentaje de thrashing
+    const trashingPercentage = this.computer.getThrashingPercentage();
+    this.trashingPercentage = [trashingPercentage.mainMMU, trashingPercentage.otherMMU];
+
+    // Fragmentación
+    const fragmentation = this.computer.getFragmentation();
+    this.fragmentation = [fragmentation.mainMMU, fragmentation.otherMMU];
   }
 
   executeOperations() {
