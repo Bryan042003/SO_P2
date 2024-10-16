@@ -63,6 +63,7 @@ export class SimulacionComponent  {
     // Crea el objeto de sesión usando this.operations
     const sessionData = new Session(this.operations.length, this.operations);
     this.computer = new Computer(this.mmu1, this.mmu2, sessionData);
+
   }
 
   ngOnInit(): void {
@@ -161,7 +162,7 @@ export class SimulacionComponent  {
       if (i < this.textOperations.length) {
         this.computer.getCurrentProcess();
         this.computer.executeInstruction(this.textOperations[i]);
-        console.log(`Ejecutando operación: ${this.textOperations[i]}`);
+        //console.log(`Ejecutando operación: ${this.textOperations[i]}`);
         i++;
         this.updateData();
         this.computer.getCurrentProcess();
@@ -191,18 +192,18 @@ export class SimulacionComponent  {
     // mmu Normal
     this.alldataMMUNormal = [];
     this.getALLDataMMUNormal();
-    console.log("alldataMMUNormal", this.alldataMMUNormal);
+    //console.log("alldataMMUNormal", this.alldataMMUNormal);
     //console.log("alldataMMUNormal", this.alldataMMUNormal);
 
     // mmu OPt
     this.alldataMMUOPT = [];
     this.getALLDataMMUOpt();
-    console.log("alldataMMUOPT", this.alldataMMUOPT);
+    //console.log("alldataMMUOPT", this.alldataMMUOPT);
 
   }
 
   computerSimulation() {
-    console.log("Ejecutando prueba de la computadora...");
+    //console.log("Ejecutando prueba de la computadora...");
     this.executeOperations();
 
     // Mostrar información

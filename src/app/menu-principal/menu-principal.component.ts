@@ -2,11 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MMU } from '../services/mmuservice.service';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import { Computer } from '../services/computer.service';
-import { Session } from '../modelos/session.model';
 import { Router } from '@angular/router';
-import seedrandom from 'seedrandom';
-
 @Component({
   selector: 'app-menu-principal',
   standalone: true,
@@ -69,7 +65,7 @@ export class MenuPrincipalComponent {
         this.operacionesLeidas.push(operacionAlt);
       }
     }
-    console.log('Operaciones leídas:', this.operacionesLeidas);
+    //console.log('Operaciones leídas:', this.operacionesLeidas);
   }
 
   // Esta función se ejecuta cuando el usuario hace clic en "Ejecutar"
@@ -94,7 +90,7 @@ export class MenuPrincipalComponent {
 
 
   generateOperations(seed: number): string[] {
-    console.log('Generando operaciones con semilla:', seed);
+    //console.log('Generando operaciones con semilla:', seed);
 
     const operations: string[] = [];
 
@@ -105,10 +101,10 @@ export class MenuPrincipalComponent {
     };
 
     const numProcesses = this.cantidadProcesos;
-    console.log('Cantidad de procesos:', numProcesses);
+    //console.log('Cantidad de procesos:', numProcesses);
     const maxOperations = this.cantidadOperaciones;
-    console.log('Cantidad de operaciones:', maxOperations);
-    
+    //console.log('Cantidad de operaciones:', maxOperations);
+
     const randomProb = () => random(0, 100) / 100; // Generador de probabilidades (0 a 1)
 
 
@@ -133,7 +129,7 @@ export class MenuPrincipalComponent {
           const ptr = random(1, 10000); // Suponiendo que el puntero es un número aleatorio
           processInfo.pointers.push(ptr);
           operations.push(`new(${processId},${ptr})`);
-          console.log('new', processId, ptr);
+          //console.log('new', processId, ptr);
         }
 
       } else if (probability <= 0.7) { // 30% de probabilidad para "use"
@@ -141,7 +137,7 @@ export class MenuPrincipalComponent {
         if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
           const ptrToUse = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
           operations.push(`use(${ptrToUse})`);
-          console.log('use', ptrToUse);
+          //console.log('use', ptrToUse);
 
         }
       } else if (probability <= 0.9) { // 20% de probabilidad para "delete"
@@ -149,7 +145,7 @@ export class MenuPrincipalComponent {
         if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
           const ptrToDelete = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
           operations.push(`delete(${ptrToDelete})`);
-          console.log('delete', ptrToDelete);
+          //console.log('delete', ptrToDelete);
           processInfo.deleted = true; // Marcamos que se ha eliminado el puntero
 
         }
@@ -157,7 +153,7 @@ export class MenuPrincipalComponent {
         // Generar operación "kill"
         if (!processInfo.killed && processInfo.pointers.length > 0) {
           operations.push(`kill(${processId})`);
-          console.log('kill', processId);
+          //console.log('kill', processId);
           processInfo.killed = true; // Marcamos que el proceso ha sido terminado
 
         }
@@ -168,11 +164,11 @@ export class MenuPrincipalComponent {
     processes.forEach((processInfo, processId) => {
       if (!processInfo.killed) {
         operations.push(`kill(${processId})`);
-        console.log('kill', processId);
+        //console.log('kill', processId);
       }
     });
 
-    console.log(processes);
+    //console.log(processes);
     this.rearArchivo(operations);
 
     return operations;
@@ -187,7 +183,7 @@ export class MenuPrincipalComponent {
     a.download = 'operaciones.txt';
     document.body.appendChild(a);
     a.click();
-  
+
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }

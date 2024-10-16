@@ -43,11 +43,12 @@ export class MMU {
     this.thrashingTime = 1;
     //this.fifoAlgorithm = new FIFO(100);
     this.algorithm = this.setAlgorithm();
+
   }
 
   saveData(data: any): void {
     this.data = data;
-    console.log('Datos guardados MMU:', this.data);
+    //console.log('Datos guardados MMU:', this.data);
   }
 
   setAlgorithm(algorithmNew: string = '') {
