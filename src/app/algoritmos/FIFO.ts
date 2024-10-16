@@ -7,6 +7,7 @@ export class FIFO extends PageAlgorithm {
   }
 
   override referencePage(refPage: Page): [Page | null, number] {
+    //this.printMemory();
     // Verifica si la página ya está en la memoria
     for (let page of this.memory) {
       if (page?.pageId === refPage.pageId) {
@@ -18,7 +19,7 @@ export class FIFO extends PageAlgorithm {
 
     // Si la memoria está llena, reemplaza la página más antigua
     if (this.memory.length >= this.memoryCapacity) {
-      replacedPage = this.memory.pop() || null; // Elimina la primera página
+      replacedPage = this.memory.shift() || null; // Elimina la primera página
     }
     this.memory.push(refPage);
 

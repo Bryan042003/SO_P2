@@ -101,17 +101,23 @@ export class MMU {
     }
 
     while (insertedPages < pages) {
-        const page = new Page(this.pageCount, -1, false);
-        this.pageCount++;
-        const [newPage, time] = this.algorithm.referencePage(page);
-        newPage.positionFlag = false;
-        this.virtualMemory.push(newPage);
-        page.positionFlag = true;
-        createdPages.push(page)
-        insertedPages++;
-        this.totalTime += time;
-        this.thrashingTime += time;
-    }
+      const page = new Page(this.pageCount, -1, false);
+      this.pageCount++;
+      const [replacedPage, time] = this.algorithm.referencePage(page);
+
+      if (replacedPage !== null) {
+          // Solo intenta acceder a replacedPage si no es nulo
+          replacedPage.positionFlag = false;
+          this.virtualMemory.push(replacedPage); // Mueve la página reemplazada a la memoria virtual
+          page.positionFlag = true; // Marca la nueva página como en memoria real
+          page.physicalAddress = replacedPage.physicalAddress; // Asigna la dirección física de la página reemplazada
+          createdPages.push(page); // Agrega la nueva página creada
+      }
+
+      insertedPages++;
+      this.totalTime += time;
+      this.thrashingTime += time;
+  }
 
     const pagesArray = [pid, color, ...createdPages];
     this.alldataAlt.push(pagesArray);
@@ -132,12 +138,12 @@ export class MMU {
 
     if (!pages) return;
     for (const page of pages) {
-      const [newPage, time] = this.algorithm.referencePage(page);
+      const [replacedPage, time] = this.algorithm.referencePage(page);
       page.lastAccess = this.totalTime;
-      if (newPage !== null) {
-        this.virtualMemory.push(newPage);
+      if (replacedPage !== null) {
+        this.virtualMemory.push(replacedPage);
         page.timestamp = this.totalTime;
-        this.realMemory[newPage.physicalAddress] = page;
+        this.realMemory[replacedPage.physicalAddress] = page;
         this.thrashingTime += time;
 
         //console.log("memoria Real actual:", this.realMemory);
