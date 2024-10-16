@@ -208,150 +208,6 @@
                     </div>
                     <div class="row"
                         style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        {{dataNumProcess[1]}}
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="row"
-                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        Sim-time
-                    </div>
-                    <div class="row"
-                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        {{simTime[1]}}
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row " style="margin: 5px;">
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                RAM Kb
-                            </div>
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{ramUsedKB[1]}}
-                            </div>
-
-                        </div>
-                        <div class="col">
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                RAM %
-                            </div>
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{ramPercentage[1]}}
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                V-RAM KB
-                            </div>
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{vramUsedKB[1]}}
-                            </div>
-
-                        </div>
-                        <div class="col">
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                V-RAM %
-                            </div>
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{vramPercentage[1]}}
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-
-            <div class="row " style="margin: 5px;">
-                <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row"
-                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        PAGES
-                    </div>
-                    <div class="row" style="height: 100%;">
-                        <div class="col" style="height: 100%;">
-                            <div class="row"
-                                style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
-                                LOADED
-                            </div>
-                            <div class="row"
-                                style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;">
-                                {{dataRam[1]}}
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                UNLOADED
-                            </div>
-                            <div class="row"
-                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                                {{dataRam[3]}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col" style="width: 100%;height: 100%; color: black;">
-                    <div class="row"
-                        style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;text-align: center;">
-                        <strong>Trashing</strong>
-                    </div>
-                    <div class="row" style="height: 100%;">
-                        <div class="col"
-                            style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center;">
-                            <strong>{{trashingTime[1]}}</strong>
-                        </div>
-                        <div class="col" style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;"
-                            [ngClass]="{'text-danger': trashingPercentage[1] > 50}">
-                            <strong>{{ trashingPercentage[1].toFixed(2)}}%</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col" style="width: 100%;height: 100%;">
-                    <div class="row"
-                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
-                        Fragmentación
-                    </div>
-                    <div class="row"
-                        style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
-                        {{fragmentation[1]}}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-  <!----TABLA ABAJO MMU NORMAL-->
-
-        <div class="col" style="width: 100%; height: 100%; padding: 0px 40px 0px 40px">
-
-            <div class="row " style="margin: 5px;">
-                <div class="col">
-                    <div class="row"
-                        style="border: 1px solid black;display: flex; justify-content: center; align-items: center;">
-                        Processes
-                    </div>
-                    <div class="row"
-                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
                         {{dataNumProcess[0]}}
                     </div>
                 </div>
@@ -478,6 +334,151 @@
                     <div class="row"
                         style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
                         {{fragmentation[0]}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+  <!----TABLA ABAJO MMU NORMAL-->
+
+        <div class="col" style="width: 100%; height: 100%; padding: 0px 40px 0px 40px">
+
+            <div class="row " style="margin: 5px;">
+                <div class="col">
+                    <div class="row"
+                        style="border: 1px solid black;display: flex; justify-content: center; align-items: center;">
+                        Processes
+                    </div>
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                        {{dataNumProcess[1]}}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                        Sim-time
+                    </div>
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                        {{simTime[1]}}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row " style="margin: 5px;">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                RAM Kb
+                            </div>
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                {{ramUsedKB[1]}}
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                RAM %
+                            </div>
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                {{ramPercentage[1]}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                V-RAM KB
+                            </div>
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                {{vramUsedKB[1]}}
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                V-RAM %
+                            </div>
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                {{vramPercentage[1]}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row " style="margin: 5px;">
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                        PAGES
+                    </div>
+                    <div class="row" style="height: 100%;">
+                        <div class="col" style="height: 100%;">
+                            <div class="row"
+                                style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
+                                LOADED
+                            </div>
+                            <div class="row"
+                                style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;">
+                                {{dataRam[1]}}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                UNLOADED
+                            </div>
+                            <div class="row"
+                                style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                                {{dataRam[3]}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" style="width: 100%;height: 100%; color: black;">
+                    <div class="row"
+                        style="border: 1px solid black; height: 100%;display: flex; justify-content: center; align-items: center;text-align: center;">
+                        <strong>Trashing</strong>
+                    </div>
+                    <div class="row" style="height: 100%;">
+                        <div class="col"
+                            style="border: 1px solid black;height: 100%; display: flex; justify-content: center; align-items: center;">
+                            <strong>{{trashingTime[1]}}</strong>
+                        </div>
+                        <div class="col" style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;"
+                            [ngClass]="{'text-danger': trashingPercentage[1] > 50}">
+                            <strong>{{ trashingPercentage[1].toFixed(2)}}%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" style="width: 100%;height: 100%;">
+                    <div class="row"
+                        style="border: 1px solid black; display: flex; justify-content: center; align-items: center;">
+                        Fragmentación
+                    </div>
+                    <div class="row"
+                        style="border: 1px solid black; height: 100%; display: flex; justify-content: center; align-items: center;">
+                        {{fragmentation[1]}}
                     </div>
                 </div>
             </div>
