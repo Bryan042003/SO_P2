@@ -43,6 +43,6 @@ export class MRU extends PageAlgorithm {
       this.memory.push(refPage); // Agrega la nueva página
     }
 
-    return [maxPage, 1]; // Devuelve la página reemplazada y un código de estado
+    return [maxPage, 5]; // Devuelve la página reemplazada y un código de estado
   }
 }

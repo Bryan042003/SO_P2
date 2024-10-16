@@ -1,2 +1,3 @@
 new(1,500)
 delete(1)
+use(1)

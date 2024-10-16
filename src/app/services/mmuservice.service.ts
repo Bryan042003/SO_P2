@@ -175,6 +175,7 @@ export class MMU {
       }
     }
     this.memoryMap.delete(pointer);
+    this.updateKILLMemoryRandV();
 
     //console.log("memoria Real actual:", this.realMemory);
     //console.log("memoria Virtual actual", this.virtualMemory);

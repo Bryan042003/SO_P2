@@ -11,7 +11,7 @@ export class FIFO extends PageAlgorithm {
     // Verifica si la página ya está en la memoria
     for (let page of this.memory) {
       if (page?.pageId === refPage.pageId) {
-        return [null, 0]; // No se reemplazó ninguna página
+        return [null, 1]; // No se reemplazó ninguna página
       }
     }
 
@@ -23,6 +23,6 @@ export class FIFO extends PageAlgorithm {
     }
     this.memory.push(refPage);
 
-    return [replacedPage, 1];
+    return [replacedPage, 5];
   }
 }

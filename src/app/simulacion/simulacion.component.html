@@ -7,10 +7,10 @@
                 RAM - OPT
             </div>
             <div class="row">
-                <div class="col" *ngFor="let col of columns; let i = index"
-                    style="height: 20px; border: 1px solid black; padding: 0;">
-
-                </div>
+              <div class="col" *ngFor="let col of dataRAMColorMMUOPT; let i = index"
+                   style="height: 20px; width: 10px; border: 1px solid black; padding: 0;"
+                   [ngStyle]="isColorArray(col[0]) ? {'background-color': 'rgb(' + col[0][0] + ',' + col[0][1] + ',' + col[0][2] + ')'} : {}">
+              </div>
             </div>
         </div>
     </div>
@@ -22,10 +22,10 @@
             </div>
 
             <div class="row">
-                <div class="col" *ngFor="let col of columns; let i = index"
-                    style="height: 20px; border: 1px solid black; padding: 0;">
-
-                </div>
+              <div class="col" *ngFor="let col of dataRAMColorMMUNormal; let i = index"
+                   style="height: 20px; width: 10px; border: 1px solid black; padding: 0;"
+                   [ngStyle]="isColorArray(col[0]) ? {'background-color': 'rgb(' + col[0][0] + ',' + col[0][1] + ',' + col[0][2] + ')'} : {}">
+              </div>
             </div>
         </div>
     </div>

@@ -31,20 +31,24 @@ export class SimulacionComponent  {
   public usedColors: [number, number, number][] | undefined
 
   public simTime: number[] = [];
-   public ramUsedKB: number[] = [];
-   public ramPercentage: number[] = [];
-   public vramUsedKB: number[] = [];
-   public vramPercentage: number[] = [];
-   public pagesLoaded: number[] = [];
-   public pagesUnloaded: number[] = [];
-   public trashingTime: number[] = [];
-   public trashingPercentage: number[] = [];
-   public fragmentation: number[] = [];
-   public fragmentationOpt: number[] = [];
-
+  public ramUsedKB: number[] = [];
+  public ramPercentage: number[] = [];
+  public vramUsedKB: number[] = [];
+  public vramPercentage: number[] = [];
+  public pagesLoaded: number[] = [];
+  public pagesUnloaded: number[] = [];
+  public trashingTime: number[] = [];
+  public trashingPercentage: number[] = [];
+  public fragmentation: number[] = [];
+  public fragmentationOpt: number[] = [];
 
   public alldataMMUOPT: (number | [number, number, number] | Page)[][] = [];
   public alldataMMUNormal: (number | [number, number, number] | Page)[][] = [];
+
+  public dataRAMColorMMUOPT: ([number, number, number] | Page)[][] = [];
+  public dataRAMColorMMUNormal: ([number, number, number] | Page)[][] = [];
+
+  //public alldataAlt: ([number, number, number] | Page)[][] = [];
 
   processIdCounter: number = 1;
 
@@ -63,7 +67,7 @@ export class SimulacionComponent  {
 
   ngOnInit(): void {
      // Crear un arreglo de 100 elementos
-     this.columns = Array.from({ length: 72 }, (_, index) => index + 1);
+     this.columns = Array.from({ length: 100 }, (_, index) => index + 1);
      this.datos = this.memoryService.getData();
      //console.log("en simulation", this.datos);
      //console.log('Datos obtenidos desde MMU:', this.datos);
@@ -100,6 +104,8 @@ export class SimulacionComponent  {
   updateData() {
     this.getPDataMM2();
     this.frontData();
+    this.updateRamColorMMUNormal();
+    this.updateRamColorMMUOPT();
 
     // Datos de RAM
     const ramPages = this.computer.getRAMPages();
@@ -228,5 +234,68 @@ export class SimulacionComponent  {
     return Array.isArray(value) && value.length === 3 && value.every(v => typeof v === 'number');
   }
 
+  updateRamColorMMUNormal() {
+    //console.log("Memoria real simulada", this.mmu2.getRealMemory());
+    //console.log("Memoria completa mmu normal", this.alldataMMUNormal);
+
+    const pagesWithColors: { color: [number, number, number], page: Page }[] = [];
+
+    this.dataRAMColorMMUNormal = [];
+
+    for (let i = 0; i < this.alldataMMUNormal.length; i++) {
+      const entry = this.alldataMMUNormal[i];
+      const color = entry[1];
+
+      if (Array.isArray(color) && this.isColorArray(color)) {
+        for (let j = 0; j < entry.length; j++) {
+          const item = entry[j];
+          if (item instanceof Page && item.positionFlag === true) {
+            pagesWithColors.push({ color: color, page: item });
+          }
+        }
+      }
+    }
+
+    pagesWithColors.sort((a, b) => a.page.physicalAddress - b.page.physicalAddress); // ordenamos por dirección física
+
+    for (let i = 0; i < pagesWithColors.length; i++) {
+      const pageColorArray: ([number, number, number] | Page)[] = [pagesWithColors[i].color, pagesWithColors[i].page];
+      this.dataRAMColorMMUNormal.push(pageColorArray);
+    }
+
+    //console.log("Colores y páginas ordenadas por physicalAddress", this.dataRAMColorMMUNormal);
+  }
+
+  updateRamColorMMUOPT() {
+    //console.log("Memoria real simulada", this.mmu1.getRealMemory());
+    //console.log("Memoria completa mmu normal", this.alldataMMUOPT);
+
+    const pagesWithColors: { color: [number, number, number], page: Page }[] = [];
+
+    this.dataRAMColorMMUOPT = [];
+
+    for (let i = 0; i < this.alldataMMUOPT.length; i++) {
+      const entry = this.alldataMMUOPT[i];
+      const color = entry[1];
+
+      if (Array.isArray(color) && this.isColorArray(color)) {
+        for (let j = 0; j < entry.length; j++) {
+          const item = entry[j];
+          if (item instanceof Page && item.positionFlag === true) {
+            pagesWithColors.push({ color: color, page: item });
+          }
+        }
+      }
+    }
+
+    pagesWithColors.sort((a, b) => a.page.physicalAddress - b.page.physicalAddress); // ordenamos por dirección física
+
+    for (let i = 0; i < pagesWithColors.length; i++) {
+      const pageColorArray: ([number, number, number] | Page)[] = [pagesWithColors[i].color, pagesWithColors[i].page];
+      this.dataRAMColorMMUOPT.push(pageColorArray);
+    }
+
+    //console.log("Colores y páginas ordenadas por physicalAddress", this.dataRAMColorMMUOPT);
+  }
 
 }
