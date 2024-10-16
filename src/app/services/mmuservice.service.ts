@@ -184,6 +184,11 @@ export class MMU {
 
   killProcess(process: Process) {
     this.processIDKill = process.pid;
+    const size = process.size;
+    //Eliminar fragmentacion interna de este proceso
+    const fragmentationInternal = size % 4;
+    this.totalFragmentationWaste -= fragmentationInternal;
+
     for (const pointer of process.pageTable) {
       this.deletePointer(pointer);
     }
