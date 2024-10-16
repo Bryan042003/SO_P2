@@ -11,7 +11,7 @@ export class SecondChance extends PageAlgorithm {
     for (let page of this.memory) {
       if (page && page.pageId === refPage.pageId) {
         page.secondChance = 1;//Second Chance
-        return [null, 0]; // No se reemplazó ninguna página
+        return [null, 1]; // No se reemplazó ninguna página
       }
     }
 
@@ -39,6 +39,6 @@ export class SecondChance extends PageAlgorithm {
     refPage.secondChance = 0; // Nueva página comienza sin segunda oportunidad
     this.memory.push(refPage);
 
-    return [replacedPage, 1]; // Retorna la página reemplazada y el costo
+    return [replacedPage, 5]; // Retorna la página reemplazada y el costo
   }
 }
