@@ -42,7 +42,6 @@ class Computer {
       this.algorithm = algorithm;
       this.mainMMU.setAlgorithm("OPT"); // mmu Optima
       this.otherMMU.setAlgorithm(algorithm);
-      //console.log("algoritmo computer", this.algorithm);
     }
 
     executeInstruction(operation: string) {
@@ -52,18 +51,22 @@ class Computer {
             this.currentProcess = this.mainProcesses.length;
             const args = op.slice(4, -1).split(',').map(arg => arg.trim());
             this.runNew(Number(args[0]), Number(args[1]));
+            console.log("NEW($Number(args[0]), $Number(args[1]))");
         } else if (op.startsWith('use(')) {
             this.currentProcess = this.mainProcesses.length;
             const ptr = Number(op.slice(4, -1).trim());
             this.runUse(ptr);
+            console.log("USE($ptr)");
         } else if (op.startsWith('delete(')) {
             this.currentProcess = this.mainProcesses.length;
             const ptr = Number(op.slice(7, -1).trim());
             this.runDelete(ptr);
+            console.log("DELETE($ptr)");
         } else if (op.startsWith('kill(')) {
            this.currentProcess = this.mainProcesses.length;
             const pid = Number(op.slice(5, -1).trim());
             this.runKill(pid);
+            console.log("KILL($pid)");
         } else {
             console.log('Invalid operation');
         }
@@ -76,9 +79,7 @@ class Computer {
     async executeOperations(ops: string[]) {
       this.operations = [];
       this.operations = ops;
-      //console.log("operations", this.operations);
       for (let i = 0; i < this.operations.length; i++) {
-        //console.log("operacion", this.operations[i]);
         this.executeInstruction(this.operations[i]);
         await delay(3000);
       }
@@ -88,9 +89,7 @@ class Computer {
         const color = this.generateRandomColor();
         this.usedColors.push(color);
 
-        //console.log("process Op");
         const optPointer = this.mainMMU.newProcess(pid, size, color);
-        //console.log("process normal");
         const otherPointer = this.otherMMU.newProcess(pid, size, color);
 
         let exists = false;
@@ -122,7 +121,6 @@ class Computer {
     }
 
     runUse(ptr: number) {
-      console.log("entramos a use en computer")
         this.mainMMU.usePointer(ptr);
         this.otherMMU.usePointer(ptr);
     }
@@ -280,8 +278,8 @@ class Computer {
     }
 
     checkData(){
-      console.log("Datos en MMU OPT:", this.mainMMU.alldataAlt);
-      console.log("Datos en MMU FIFO:", this.otherMMU.alldataAlt);
+      //console.log("Datos en MMU OPT:", this.mainMMU.alldataAlt);
+      //console.log("Datos en MMU FIFO:", this.otherMMU.alldataAlt);
 
     }
 }

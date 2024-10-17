@@ -33,7 +33,7 @@ export class MenuPrincipalComponent {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const contenidoArchivo = e.target.result;
-        //console.log('Contenido del archivo:', contenidoArchivo);
+       
 
         this.procesarArchivo(contenidoArchivo);
       };
@@ -65,7 +65,7 @@ export class MenuPrincipalComponent {
         this.operacionesLeidas.push(operacionAlt);
       }
     }
-    //console.log('Operaciones leídas:', this.operacionesLeidas);
+    
   }
 
   // Esta función se ejecuta cuando el usuario hace clic en "Ejecutar"
@@ -77,7 +77,7 @@ export class MenuPrincipalComponent {
       cantidadOperaciones: this.cantidadOperaciones,
       fileName: this.fileName
     };
-    //console.log('Datos capturados:', datos);
+   
     this.memoryService.saveData(datos);
     this.memoryService.saveOperations(this.operacionesLeidas);
     //this.generateOperations(1);
@@ -90,7 +90,6 @@ export class MenuPrincipalComponent {
 
 
   generateOperations(seed: number): string[] {
-    //console.log('Generando operaciones con semilla:', seed);
 
     const operations: string[] = [];
 
@@ -101,9 +100,7 @@ export class MenuPrincipalComponent {
     };
 
     const numProcesses = this.cantidadProcesos;
-    //console.log('Cantidad de procesos:', numProcesses);
     const maxOperations = this.cantidadOperaciones;
-    //console.log('Cantidad de operaciones:', maxOperations);
 
     const randomProb = () => random(0, 100) / 100; // Generador de probabilidades (0 a 1)
 
@@ -129,7 +126,6 @@ export class MenuPrincipalComponent {
           const ptr = random(1, 10000); // Suponiendo que el puntero es un número aleatorio
           processInfo.pointers.push(ptr);
           operations.push(`new(${processId},${ptr})`);
-          //console.log('new', processId, ptr);
         }
 
       } else if (probability <= 0.7) { // 30% de probabilidad para "use"
@@ -137,7 +133,6 @@ export class MenuPrincipalComponent {
         if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
           const ptrToUse = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
           operations.push(`use(${ptrToUse})`);
-          //console.log('use', ptrToUse);
 
         }
       } else if (probability <= 0.9) { // 20% de probabilidad para "delete"
@@ -145,7 +140,6 @@ export class MenuPrincipalComponent {
         if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
           const ptrToDelete = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
           operations.push(`delete(${ptrToDelete})`);
-          //console.log('delete', ptrToDelete);
           processInfo.deleted = true; // Marcamos que se ha eliminado el puntero
 
         }
@@ -153,7 +147,6 @@ export class MenuPrincipalComponent {
         // Generar operación "kill"
         if (!processInfo.killed && processInfo.pointers.length > 0) {
           operations.push(`kill(${processId})`);
-          //console.log('kill', processId);
           processInfo.killed = true; // Marcamos que el proceso ha sido terminado
 
         }
@@ -164,11 +157,9 @@ export class MenuPrincipalComponent {
     processes.forEach((processInfo, processId) => {
       if (!processInfo.killed) {
         operations.push(`kill(${processId})`);
-        //console.log('kill', processId);
       }
     });
 
-    //console.log(processes);
     this.rearArchivo(operations);
 
     return operations;

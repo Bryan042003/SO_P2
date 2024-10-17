@@ -17,15 +17,14 @@ export class PageAlgorithm {
   }
 
   delete(page: Page): void {
-    console.log("entramos a delete");
     this.memory = this.memory.filter(p => p !== page);
   }
 
   printMemory(): void {
-    console.log("Memory content:");
+    //console.log("Memory content:");
     this.memory.forEach(page => {
       if (page) {
-        console.log(`Page ${page.pageId}`, `loaded ${page.positionFlag}`);
+        //console.log(`Page ${page.pageId}`, `loaded ${page.positionFlag}`);
       }
     });
   }
