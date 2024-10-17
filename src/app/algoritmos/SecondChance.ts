@@ -7,38 +7,38 @@ export class SecondChance extends PageAlgorithm {
   }
 
   override referencePage(refPage: Page): [Page | null, number] {
-    // Verificar si la página está en la memoria
-    for (let page of this.memory) {
+    // Verificar si la página ya está en memoria
+    for (const page of this.memory) {
       if (page && page.pageId === refPage.pageId) {
-        page.secondChance = 1;//Second Chance
-        return [null, 1]; // No se reemplazó ninguna página
+        page.secondChance = 1; // Si la página ya está en memoria, se le da una segunda oportunidad
+        return [null, 1]; // No se necesita reemplazo
       }
     }
-
-    let replacedPage: Page | null = null;
-
-    // Si la memoria está llena, aplica Second Chance
+    // Si la memoria está llena, aplicar Second Chance
     if (this.memory.length >= this.memoryCapacity) {
-      while (true) {
-        const page = this.memory[0]; // Verificamos la primera página en la memoria
+      let replacedPage: Page | null = null;
 
-        if (page && page.secondChance === 0) {
-          // Si no tiene segunda oportunidad, se reemplaza
-          replacedPage = this.memory.shift() || null; // Elimina la primera página
-          break;
-        } else if (page) {
-          // Si tiene segunda oportunidad, le quitamos la oportunidad
-          page.secondChance = 0;
-          // Mueve la página al final de la memoria
-          this.memory.push(this.memory.shift()!);
+      // Ciclo para encontrar una página con secondChance = 0
+      while (replacedPage === null && this.memory.length > 0) { // Añadir verificación de que la memoria no esté vacía
+        const oldestPage = this.memory[0]; // Ver la página más antigua
+
+        if (oldestPage && oldestPage.secondChance === 0) {
+          // Si no tiene segunda oportunidad, la reemplazamos
+          replacedPage = this.memory.shift()!;
+        } else if (oldestPage) {
+          // Si tiene segunda oportunidad, la movemos al final y reseteamos su bit
+          oldestPage.secondChance = 0;
+          this.memory.push(this.memory.shift()!); // Movemos la página al final de la lista
         }
       }
+
+      // Añadir la nueva página al final de la lista
+      this.memory.push(refPage);
+      return [replacedPage, 5]; // Devolver la página reemplazada
     }
 
-    // Agrega la nueva página a la memoria
-    refPage.secondChance = 0; // Nueva página comienza sin segunda oportunidad
+    // Si aún hay espacio en memoria, simplemente agregar la nueva página
     this.memory.push(refPage);
-
-    return [replacedPage, 5]; // Retorna la página reemplazada y el costo
+    return [null, 0];
   }
 }
