@@ -2,6 +2,7 @@ import { delay } from 'rxjs';
 import { Process } from '../modelos/process.model';
 import { Session } from '../modelos/session.model';
 import { MMU } from '../services/mmuservice.service';
+import { Page } from '../modelos/pagina.model';
 
 class Computer {
     instructionsPerSecond: number;
@@ -202,15 +203,17 @@ class Computer {
     
     getVRAMUsed() {
         return {
-            mainMMU: this.mainMMU.virtualMemory.length * this.pageSize,
-            otherMMU: this.otherMMU.virtualMemory.length * this.pageSize,
+            mainMMU: this.mainMMU.getVirtualMemory().filter(page => page instanceof Page).length * this.pageSize,
+            otherMMU: this.otherMMU.getVirtualMemory().filter(page => page instanceof Page).length * this.pageSize,
         };
     }
     
     getVRAMUsagePercentage() {
+        const vramUsed = this.getVRAMUsed();
+        
         return {
-            mainMMU: (this.mainMMU.virtualMemory.length * this.pageSize) / this.RAMSize * 100,
-            otherMMU: (this.otherMMU.virtualMemory.length * this.pageSize) / this.RAMSize * 100,
+            mainMMU: (vramUsed.mainMMU / this.RAMSize) * 100,
+            otherMMU: (vramUsed.otherMMU / this.RAMSize) * 100,
         };
     }
     
@@ -225,12 +228,12 @@ class Computer {
         const totalPages = this.RAMSize / this.pageSize;  // Total de páginas disponibles en la RAM
     
         // Páginas cargadas en mainMMU y otherMMU
-        const mainPagesLoaded = this.mainMMU.realMemory.filter(page => page !== null).length;
-        const otherPagesLoaded = this.otherMMU.realMemory.filter(page => page !== null).length;
+        const mainPagesLoaded = this.mainMMU.pageCount;
+        const otherPagesLoaded = this.otherMMU.pageCount;
     
         // Páginas no cargadas en mainMMU y otherMMU
-        const mainPagesUnloaded = totalPages - mainPagesLoaded;
-        const otherPagesUnloaded = totalPages - otherPagesLoaded;
+        const mainPagesUnloaded = mainPagesLoaded -  totalPages;
+        const otherPagesUnloaded = otherPagesLoaded - totalPages;
     
         return {
             mainMMU: {
@@ -277,7 +280,6 @@ class Computer {
     }
 
     checkData(){
-      console.log("tamooooo")
       console.log("Datos en MMU OPT:", this.mainMMU.alldataAlt);
       console.log("Datos en MMU FIFO:", this.otherMMU.alldataAlt);
 
