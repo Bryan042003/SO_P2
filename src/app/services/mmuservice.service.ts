@@ -130,6 +130,8 @@ export class MMU {
     const currentPointer = this.pointerCount;
     this.memoryMap.set(currentPointer, createdPages);
     this.pointerCount++;
+    console.log("memoria Real actual:", this.realMemory);
+    console.log("memoria Virtual actual", this.virtualMemory);
 
     return currentPointer;
 }
@@ -178,8 +180,8 @@ export class MMU {
     this.memoryMap.delete(pointer);
     this.updateKILLMemoryRandV();
 
-    //console.log("memoria Real actual:", this.realMemory);
-    //console.log("memoria Virtual actual", this.virtualMemory);
+    console.log("memoria Real actual:", this.realMemory);
+    console.log("memoria Virtual actual", this.virtualMemory);
   }
 
   killProcess(process: Process) {

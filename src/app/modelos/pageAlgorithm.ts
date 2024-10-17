@@ -17,6 +17,7 @@ export class PageAlgorithm {
   }
 
   delete(page: Page): void {
+    console.log("entramos a delete");
     this.memory = this.memory.filter(p => p !== page);
   }
 

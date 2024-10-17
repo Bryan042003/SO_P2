@@ -7,37 +7,56 @@ export class OPT extends PageAlgorithm {
   }
 
   override referencePage(refPage: Page): [Page | null, number] {
-    // Comprobar si la página ya está en memoria
-    for (const page of this.memory) {
+    // Verificar si la página ya está en la memoria
+    for (let page of this.memory) {
       if (page && page.pageId === refPage.pageId) {
-        page.lastAccess = 0; // Reiniciar el tiempo de uso
-        return [null, 1];
+        return [null, 1]; // No se reemplazó ninguna página
       }
     }
 
-    // Si la página no está en memoria, reemplazar la página que no se usará durante más tiempo
-    let maxTime = -1;
-    let maxPage: Page | null = null;
+    // Si la página no está en la memoria y la memoria está llena, debemos reemplazar una página
+    if (this.memory.length >= this.memoryCapacity) {
+      let pageToReplace: Page | null = null;
+      let farthestUseIndex = -1;
 
-    for (const page of this.memory) {
-      if (page && page.lastAccess > maxTime) {
-        maxTime = page.lastAccess;
-        maxPage = page;
+      for (let i = 0; i < this.memory.length; i++) {
+        const page = this.memory[i];
+        const nextUseIndex = this.findNextUseIndex(page, this.memory.filter(p => p !== null));
+
+        // Si la página no se usará más en el futuro
+        if (nextUseIndex === -1) {
+          pageToReplace = page;
+          break; // No necesitamos seguir buscando
+        }
+
+        // Encontrar la página que será utilizada más tarde
+        if (nextUseIndex > farthestUseIndex) {
+          farthestUseIndex = nextUseIndex;
+          pageToReplace = page;
+        }
+      }
+
+      // Si se ha encontrado una página para reemplazar, la eliminamos de la memoria
+      if (pageToReplace) {
+        this.delete(pageToReplace);
       }
     }
 
-    if (maxPage) {
-      const physicalAddress = maxPage.physicalAddress;
+    // Añadir la nueva página a la memoria
+    this.memory.push(refPage);
+    return [null, 1]; // Retorna que no se reemplazó ninguna página
+  }
 
-      this.delete(maxPage); // Eliminar la página que será reemplazada
+  private findNextUseIndex(page: Page | null, futureReferences: Page[]): number {
+    if (!page) return -1; // Si la página es nula, retornar -1
 
-      // Añadir la nueva página a la memoria
-      refPage.physicalAddress = physicalAddress; // Asignar la dirección física de la página que se está reemplazando
-      this.memory.push(refPage); // Agregar la nueva página
-
-      return [maxPage, 5]; // Devolver la página reemplazada y un valor indicativo
+    // Buscar el índice del siguiente uso de la página en futuras referencias
+    for (let i = 0; i < futureReferences.length; i++) {
+        if (futureReferences[i].pageId === page.pageId) {
+            return i; // Retornar el índice del siguiente uso
+        }
     }
 
-    return [null, 0]; // En caso de que no haya páginas que reemplazar
+    return -1; // Retornar -1 si la página no será utilizada más
   }
 }
