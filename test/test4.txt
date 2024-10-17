@@ -1,0 +1,7 @@
+new(9,7962)
+new(2,4105)
+delete(9)
+new(2,5410)
+use(2)
+delete(2)
+new(6,1032)

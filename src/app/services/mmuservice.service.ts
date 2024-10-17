@@ -38,7 +38,7 @@ export class MMU {
     this.virtualMemory = [];
     this.memoryMap = new Map();
     this.pageCount = 0;
-    this.pointerCount = 0;
+    this.pointerCount = 1;
     this.totalTime = 1;
     this.thrashingTime = 1;
     //this.fifoAlgorithm = new FIFO(100);
@@ -135,7 +135,7 @@ export class MMU {
 }
 
   usePointer(pointer: number) {
-    if (Object.keys(this.memoryMap).length === 0 || !(pointer in this.memoryMap)) {
+    if (this.memoryMap.size === 0 || !this.memoryMap.has(pointer)) {
       return;
     }
 
@@ -159,7 +159,7 @@ export class MMU {
   }
 
   deletePointer(pointer: number) {
-    if (!(pointer in this.memoryMap)) {
+    if (this.memoryMap.size === 0 || !this.memoryMap.has(pointer)) {
       return;
     }
     const pages = this.memoryMap.get(pointer);

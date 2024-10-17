@@ -81,27 +81,6 @@ export class SimulacionComponent  {
      //this.computer.mainMMU.chooseAlgorithm(this.datos.algorithm);
   }
 
-  // Simulación de la MMU
-  /*
-  MMUsimulation() {
-    // Crear procesos según la cantidad especificada
-    for (let i = 0; i < this.cantidadProcesos; i++) {
-      const processSize = Math.floor(Math.random() * 20) + 5; // Tamaño del proceso aleatorio
-      const pid = this.processIdCounter++;
-      const pointer = this.memoryService.newProcess(pid, processSize); // Crear un nuevo proceso
-      //console.log(`Proceso creado: PID=${pid}, Tamaño=${processSize}, Pointer=${pointer}`);
-    }
-
-    // Realizar accesos a la memoria
-    for (let i = 0; i < this.cantidadOperaciones; i++) {
-      const randomPointer = Math.floor(Math.random() * this.processIdCounter); // Seleccionar un proceso aleatorio
-      this.memoryService.usePointer(randomPointer); // Simular el uso del puntero
-    }
-
-    // Mostrar el estado final de la memoria
-    //this.memoryService.showMemoryState();
-  }*/
-
   updateData() {
     this.getPDataMM2();
     this.frontData();
