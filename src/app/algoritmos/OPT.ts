@@ -5,8 +5,8 @@ export class OPT extends PageAlgorithm {
   futureReferences: Page[];
   currentTime: number; // Contador interno para el tiempo
 
-  constructor(memoryCapacity: number = 100, futureReferences: Page[] = []) {
-    super(memoryCapacity);
+  constructor(sizeMemory: number = 100, futureReferences: Page[] = []) {
+    super(sizeMemory);
     this.futureReferences = futureReferences;
     this.currentTime = 0;
   }
@@ -21,7 +21,7 @@ export class OPT extends PageAlgorithm {
     }
 
     // Si la memoria está llena, buscar la página óptima para reemplazar
-    if (this.memory.length >= this.memoryCapacity) {
+    if (this.memory.length >= this.sizeMemory) {
       const pageToReplace = this.findOptimalPage(this.currentTime);
       const replacedPage = pageToReplace ? this.deleteAndReturn(pageToReplace) : null;
       this.memory.push(refPage);

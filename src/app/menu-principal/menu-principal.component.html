@@ -5,7 +5,7 @@
 
       <div style="background-color: white; padding:10px; margin: 10px;">
         <label for="semilla">Ingresar semilla</label>
-        <input type="number" [(ngModel)]="semilla" name="semilla" id="semilla" min="0" style="border: none;">
+        <input type="number" [(ngModel)]="semilla" name="semilla" id="semilla" min="1" style="border: none;">
       </div>
 
       <div style=" width: 100%; display: flex; align-items: center; justify-content: center; margin: 20px 0px 20px 0px;">
@@ -57,7 +57,7 @@
 
     <div style="margin: 40px;">
       <a (click)="guardarDatos(); gotoSimulation()">
-        <button 
+        <button
           style="padding: 10px; width: 200px; border-radius: 20px; border: none; color: white; background-color: #9D9FB2;"
           [disabled]="!fileName">
           Ejecutar

@@ -193,21 +193,16 @@ export class MMU {
 
 
   killProcess(process: Process) {
-
-    console.log("el mapa", this.memoryMap);
-
     this.processIDKill = process.pid;
     const size = process.size;
     const fragmentationInternal = size % 4;
     this.totalFragmentationWaste -= fragmentationInternal;
 
     for (const pointer of process.pageTable) {
-      console.log("buenas" + pointer);
       this.deletePointer(pointer);
     }
     process.pageTable = [];
     this.updateKILLMemoryRandV();
-    console.log("el mapa final", this.memoryMap);
   }
 
   getTime(): number {

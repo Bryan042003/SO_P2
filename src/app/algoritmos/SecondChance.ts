@@ -2,8 +2,8 @@ import { PageAlgorithm } from "../modelos/pageAlgorithm";
 import { Page } from "../modelos/pagina.model";
 
 export class SecondChance extends PageAlgorithm {
-  constructor(memoryCapacity: number = 100) {
-    super(memoryCapacity);
+  constructor(sizeMemory: number = 100) {
+    super(sizeMemory);
   }
 
   override replacePage(refPage: Page): [Page | null, number] {
@@ -15,7 +15,7 @@ export class SecondChance extends PageAlgorithm {
       }
     }
     // Si la memoria está llena
-    if (this.memory.length >= this.memoryCapacity) {
+    if (this.memory.length >= this.sizeMemory) {
       let replacedPage: Page | null = null;
 
       while (replacedPage === null && this.memory.length > 0) {

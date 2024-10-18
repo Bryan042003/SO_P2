@@ -2,12 +2,12 @@
 import { Page } from "./pagina.model";
 
 export class PageAlgorithm {
-  memoryCapacity: number;
+  sizeMemory: number;
   memory: (Page | null)[];
   totalTime: number;
 
-  constructor(memoryCapacity: number = 100) {
-    this.memoryCapacity = memoryCapacity;
+  constructor(sizeMemory: number = 100) {
+    this.sizeMemory = 100;
     this.memory = [];
     this.totalTime = 0;
   }

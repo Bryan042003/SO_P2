@@ -2,8 +2,8 @@ import { PageAlgorithm } from "../modelos/pageAlgorithm";
 import { Page } from "../modelos/pagina.model";
 
 export class MRU extends PageAlgorithm {
-  constructor(memoryCapacity: number = 100) {
-    super(memoryCapacity);
+  constructor(sizeMemory: number = 100) {
+    super(sizeMemory);
   }
 
   override replacePage(refPage: Page): [Page | null, number] {

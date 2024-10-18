@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class MenuPrincipalComponent {
   processIdCounter: number = 1;
 
-  semilla: number = 0;
+  semilla: number = 1;
   algoritmoSeleccionado: string = 'FIFO';
   cantidadProcesos: number = 10;
   cantidadOperaciones: number = 500;
@@ -103,7 +103,7 @@ export class MenuPrincipalComponent {
     for (let i = 1; i <= numProcesses; i++) {
       processes.set(i, { pointers: [], deleted: false, killed: false });
     }
-
+    let pointerProcess = 1;
     let totalOperations = 0;
 
     while (totalOperations < maxOperations) {
@@ -114,9 +114,10 @@ export class MenuPrincipalComponent {
 
       if (probability <= 0.4) { // 40% de probabilidad para "new"
         if (!processInfo.killed && !processInfo.deleted) {
-          const ptr = random(1, 10000);
-          processInfo.pointers.push(ptr);
-          operations.push(`new(${processId},${ptr})`);
+          const op = random(1, 10000);
+          processInfo.pointers.push(pointerProcess);
+          operations.push(`new(${processId},${op})`);
+          pointerProcess++;
         }
 
       } else if (probability <= 0.7) { // 30% de probabilidad para "use"
