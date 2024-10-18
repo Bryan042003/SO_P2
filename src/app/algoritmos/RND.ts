@@ -2,8 +2,8 @@ import { Page } from "../modelos/pagina.model";
 import { PageAlgorithm } from "../modelos/pageAlgorithm";
 
 export class RND extends PageAlgorithm {
-  constructor(memoryCapacity: number = 100) {
-    super(memoryCapacity);
+  constructor(sizeMemory: number = 100) {
+    super(sizeMemory);
   }
 
   override replacePage(refPage: Page): [Page | null, number] {

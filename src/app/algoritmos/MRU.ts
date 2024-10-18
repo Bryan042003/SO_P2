@@ -44,3 +44,5 @@ export class MRU extends PageAlgorithm {
     return [maxPage, 5];
   }
 }
+
+

@@ -25,3 +25,5 @@ export class FIFO extends PageAlgorithm {
     return [null, 0];
   }
 }
+
+
