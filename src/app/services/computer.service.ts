@@ -7,15 +7,15 @@ import { Page } from '../modelos/pagina.model';
 class Computer {
     instructionsPerSecond: number;
     diskAccessTime: number;
-    RAMSize: number; // KB
+    RAMSize: number;
     hardDrive: number;
-    pageSize: number; // KB
+    pageSize: number;
     session: Session;
     mainMMU: MMU;
     otherMMU: MMU;
     mainProcesses: Process[];
     otherProcesses: Process[];
-    usedColors: [number, number, number][]; // Usar un array de colores RGB
+    usedColors: [number, number, number][];
     operations: string[] = [];
     currentProcess: number = 0;
     algorithm: string = '';
@@ -27,9 +27,9 @@ class Computer {
     constructor(mainMMU: MMU, otherMMU: MMU, session: Session) {
         this.instructionsPerSecond = 1;
         this.diskAccessTime = 5;
-        this.RAMSize = 400; // KB
+        this.RAMSize = 400;
         this.hardDrive = 999999;
-        this.pageSize = 4; // KB
+        this.pageSize = 4;
         this.session = session;
         this.mainMMU = mainMMU; // opT
         this.otherMMU = otherMMU;  // normal
@@ -51,22 +51,22 @@ class Computer {
             this.currentProcess = this.mainProcesses.length;
             const args = op.slice(4, -1).split(',').map(arg => arg.trim());
             this.runNew(Number(args[0]), Number(args[1]));
-            console.log("NEW($Number(args[0]), $Number(args[1]))");
+            //console.log("NEW($Number(args[0]), $Number(args[1]))");
         } else if (op.startsWith('use(')) {
             this.currentProcess = this.mainProcesses.length;
             const ptr = Number(op.slice(4, -1).trim());
             this.runUse(ptr);
-            console.log("USE($ptr)");
+            //console.log("USE($ptr)");
         } else if (op.startsWith('delete(')) {
             this.currentProcess = this.mainProcesses.length;
             const ptr = Number(op.slice(7, -1).trim());
             this.runDelete(ptr);
-            console.log("DELETE($ptr)");
+            //console.log("DELETE($ptr)");
         } else if (op.startsWith('kill(')) {
            this.currentProcess = this.mainProcesses.length;
             const pid = Number(op.slice(5, -1).trim());
             this.runKill(pid);
-            console.log("KILL($pid)");
+            //console.log("KILL($pid)");
         } else {
             console.log('Invalid operation');
         }
@@ -115,8 +115,6 @@ class Computer {
             this.mainProcesses.push(optProcess);
             this.otherProcesses.push(otherProcess);
         }
-
-        //this.otherMMU.printVirtualMemory();
         this.checkData();
     }
 
@@ -145,9 +143,6 @@ class Computer {
             this.mainMMU.killProcess(processToKill);
             this.otherMMU.killProcess(processToKill);
         }
-        //console.log("vemos vm");
-        //this.mainMMU.printVirtualMemory();
-        //console.log("vemos vm2");
     }
 
     getTime() {
@@ -156,83 +151,83 @@ class Computer {
             otherMMU: this.otherMMU.getTime(),
         };
     }
-    
+
     getFragmentation() {
         return {
             mainMMU: this.mainMMU.getFragmentation(),
             otherMMU: this.otherMMU.getFragmentation(),
         };
     }
-    
+
     getThrashingTime() {
         return {
             mainMMU: this.mainMMU.getThrashingTime(),
             otherMMU: this.otherMMU.getThrashingTime(),
         };
     }
-    
+
     getThrashingPercentage(): { mainMMU: number, otherMMU: number } {
         return {
             mainMMU: (this.mainMMU.getThrashingTime() / this.mainMMU.getTime()) * 100,
             otherMMU: (this.otherMMU.getThrashingTime() / this.otherMMU.getTime()) * 100,
         };
     }
-    
+
     getVRAMSize() {
         return {
             mainMMU: this.mainMMU.virtualMemory.length,
             otherMMU: this.otherMMU.virtualMemory.length,
         };
     }
-    
+
     getRAMUsed() {
         return {
             mainMMU: this.mainMMU.realMemory.length * this.pageSize,
             otherMMU: this.otherMMU.realMemory.length * this.pageSize,
         };
     }
-    
+
     getRAMUsagePercentage() {
         return {
             mainMMU: (this.mainMMU.realMemory.length * this.pageSize) / this.RAMSize * 100,
             otherMMU: (this.otherMMU.realMemory.length * this.pageSize) / this.RAMSize * 100,
         };
     }
-    
+
     getVRAMUsed() {
         return {
             mainMMU: this.mainMMU.getVirtualMemory().filter(page => page instanceof Page).length * this.pageSize,
             otherMMU: this.otherMMU.getVirtualMemory().filter(page => page instanceof Page).length * this.pageSize,
         };
     }
-    
+
     getVRAMUsagePercentage() {
         const vramUsed = this.getVRAMUsed();
-        
+
         return {
             mainMMU: (vramUsed.mainMMU / this.RAMSize) * 100,
             otherMMU: (vramUsed.otherMMU / this.RAMSize) * 100,
         };
     }
-    
+
     getProcessNumber() {
         return {
             mainMMU: this.mainProcesses.length,
             otherMMU: this.otherProcesses.length,
         };
     }
-    
+
     getRAMPages() {
         const totalPages = this.RAMSize / this.pageSize;  // Total de páginas disponibles en la RAM
-    
+
         // Páginas cargadas en mainMMU y otherMMU
         const mainPagesLoaded = this.mainMMU.pageCount;
         const otherPagesLoaded = this.otherMMU.pageCount;
-    
+
         // Páginas no cargadas en mainMMU y otherMMU
         const mainPagesUnloaded = mainPagesLoaded -  totalPages;
         const otherPagesUnloaded = otherPagesLoaded - totalPages;
-    
+
         return {
             mainMMU: {
                 loaded: mainPagesLoaded,
@@ -253,6 +248,8 @@ class Computer {
         return color;
     }
 
+
+
     private isSameColor(color1: [number, number, number], color2: [number, number, number]): boolean {
         return color1[0] === color2[0] && color1[1] === color2[1] && color1[2] === color2[2];
     }
@@ -271,10 +268,6 @@ class Computer {
 
     getColors(): [number, number, number][] | undefined {
       return this.usedColors;
-    }
-
-    getDate() {
-      // nos vamos a traer todos los datos desde aqui
     }
 
     checkData(){

@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 export class MenuPrincipalComponent {
   processIdCounter: number = 1;
 
-  // Variables para guardar los datos de la simulación
   semilla: number = 0;
   algoritmoSeleccionado: string = 'FIFO';
   cantidadProcesos: number = 10;
@@ -24,7 +23,6 @@ export class MenuPrincipalComponent {
 
   constructor(private memoryService: MMU, private router: Router) { }
 
-  // leer el archivo
   readShowFileName(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -33,7 +31,7 @@ export class MenuPrincipalComponent {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const contenidoArchivo = e.target.result;
-       
+
 
         this.procesarArchivo(contenidoArchivo);
       };
@@ -46,10 +44,10 @@ export class MenuPrincipalComponent {
 
   procesarArchivo(contenido: string): void {
     this.operacionesLeidas = [];
-    const lineas = contenido.split('\n'); // Separamos por líneas
+    const lineas = contenido.split('\n');
 
     for (const linea of lineas) {
-      const regex = /(\w+)\((\d+)(?:,(\d+))?\)/; // capturar la operación y los números
+      const regex = /(\w+)\((\d+)(?:,(\d+))?\)/;
       const coincidencias = linea.match(regex);
 
       if (coincidencias) {
@@ -65,10 +63,9 @@ export class MenuPrincipalComponent {
         this.operacionesLeidas.push(operacionAlt);
       }
     }
-    
+
   }
 
-  // Esta función se ejecuta cuando el usuario hace clic en "Ejecutar"
   guardarDatos(): void {
     const datos = {
       semilla: this.semilla,
@@ -77,11 +74,9 @@ export class MenuPrincipalComponent {
       cantidadOperaciones: this.cantidadOperaciones,
       fileName: this.fileName
     };
-   
+
     this.memoryService.saveData(datos);
     this.memoryService.saveOperations(this.operacionesLeidas);
-    //this.generateOperations(1);
-
   }
 
   gotoSimulation(): void {
@@ -93,21 +88,18 @@ export class MenuPrincipalComponent {
 
     const operations: string[] = [];
 
-    // Generador de números aleatorios basado en la semilla
     const random = (min: number, max: number) => {
-      seed = (seed * 48271) % 2147483647; // Múltiplo de 2^31 - 1
+      seed = (seed * 48271) % 2147483647;
       return Math.floor(Math.abs(seed) % (max - min + 1)) + min;
     };
 
     const numProcesses = this.cantidadProcesos;
     const maxOperations = this.cantidadOperaciones;
 
-    const randomProb = () => random(0, 100) / 100; // Generador de probabilidades (0 a 1)
-
+    const randomProb = () => random(0, 100) / 100;
 
     const processes = new Map<number, { pointers: number[], deleted: boolean, killed: boolean }>();
 
-    // Inicializa la información de los procesos
     for (let i = 1; i <= numProcesses; i++) {
       processes.set(i, { pointers: [], deleted: false, killed: false });
     }
@@ -118,42 +110,37 @@ export class MenuPrincipalComponent {
       const processId = random(1, numProcesses);
       const processInfo = processes.get(processId)!;
 
-      const probability = randomProb(); // Obtener una probabilidad aleatoria entre 0 y 1
+      const probability = randomProb();
 
-      // Asignamos probabilidades a las operaciones
       if (probability <= 0.4) { // 40% de probabilidad para "new"
         if (!processInfo.killed && !processInfo.deleted) {
-          const ptr = random(1, 10000); // Suponiendo que el puntero es un número aleatorio
+          const ptr = random(1, 10000);
           processInfo.pointers.push(ptr);
           operations.push(`new(${processId},${ptr})`);
         }
 
       } else if (probability <= 0.7) { // 30% de probabilidad para "use"
-        // Generar operación "use"
         if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
           const ptrToUse = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
           operations.push(`use(${ptrToUse})`);
 
         }
       } else if (probability <= 0.9) { // 20% de probabilidad para "delete"
-        // Generar operación "delete"
         if (!processInfo.killed && !processInfo.deleted && processInfo.pointers.length > 0) {
           const ptrToDelete = processInfo.pointers[random(0, processInfo.pointers.length - 1)];
           operations.push(`delete(${ptrToDelete})`);
-          processInfo.deleted = true; // Marcamos que se ha eliminado el puntero
+          processInfo.deleted = true;
 
         }
       } else { // 10% de probabilidad para "kill"
-        // Generar operación "kill"
         if (!processInfo.killed && processInfo.pointers.length > 0) {
           operations.push(`kill(${processId})`);
-          processInfo.killed = true; // Marcamos que el proceso ha sido terminado
+          processInfo.killed = true;
 
         }
       }
       totalOperations++;
     }
-    // Verifica si hay procesos no asesinados y agrega su "kill" si es necesario
     processes.forEach((processInfo, processId) => {
       if (!processInfo.killed) {
         operations.push(`kill(${processId})`);

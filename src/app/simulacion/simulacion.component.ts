@@ -16,7 +16,7 @@ import { Process } from '../modelos/process.model';
 export class SimulacionComponent {
   columns: number[] = [];
   private datos: any = {};
-  operations: string[] = []; // Array para almacenar las operaciones (instrucciones)
+  operations: string[] = [];
   private computer: Computer;
   private mmu1 = new MMU();
   private mmu2 = new MMU();
@@ -48,36 +48,41 @@ export class SimulacionComponent {
   public dataRAMColorMMUNormal: ([number, number, number] | Page)[][] = [];
 
   processIdCounter: number = 1;
+  realMemoryNEWColorOPT: [number, number, number][] = [];
+  realMemoryNEWColorNormal: [number, number, number][] = [];
+  public realMemoryAux: (Page | null)[] | undefined;
+  public realMemoryAuxNormal: (Page | null)[] | undefined;
 
-  // Variables para guardar los datos de la simulación
   semilla: number = 0;
   algoritmoSeleccionado: string = 'FIFO';
   cantidadProcesos: number = 10;
   cantidadOperaciones: number = 500;
   nombreArchivo: string = '';
+  algoritmoPuesto: string = 'ALG';
 
-  // Variable para controlar la pausa
   public isPaused: boolean = false;
 
   constructor(private memoryService: MMU) {
-    // Crea el objeto de sesión usando this.operations
     const sessionData = new Session(this.operations.length, this.operations);
     this.computer = new Computer(this.mmu1, this.mmu2, sessionData);
+    this.realMemoryNEWColorOPT = Array(100).fill(null);
+    this.realMemoryNEWColorNormal = Array(100).fill(null);
   }
 
   ngOnInit(): void {
-    // Crear un arreglo de 100 elementos
     this.columns = Array.from({ length: 100 }, (_, index) => index + 1);
     this.datos = this.memoryService.getData();
     this.computer.saveAlgorithmComputer(this.datos.algoritmoSeleccionado);
     this.computerSimulation();
+    this.algoritmoPuesto = this.datos.algoritmoSeleccionado;
   }
 
   updateData() {
     this.getPDataMM2();
     this.frontData();
-    this.updateRamColorMMUNormal();
-    this.updateRamColorMMUOPT();
+
+    this.updateNewColorOPT();
+    this.updateNewColorNormal();
 
     const ramPages = this.computer.getRAMPages();
     this.dataRam = [ramPages.mainMMU.loaded, ramPages.otherMMU.loaded, ramPages.mainMMU.unloaded, ramPages.otherMMU.unloaded];
@@ -118,20 +123,19 @@ export class SimulacionComponent {
 
     const ejecutarInstruccion = () => {
       if (i < this.textOperations.length) {
-        if (!this.isPaused) { // Solo ejecuta si no está en pausa
+        if (!this.isPaused) { // PAUSA
           this.computer.getCurrentProcess();
           this.computer.executeInstruction(this.textOperations[i]);
           i++;
           this.updateData();
         }
-        setTimeout(ejecutarInstruccion, 2000); // Repite cada 2 segundos
+        setTimeout(ejecutarInstruccion, 2000); // 2 SEGUNDOS
       }
     };
 
     ejecutarInstruccion();
   }
 
-  // Alternar entre pausar y reanudar la simulación
   togglePause() {
     this.isPaused = !this.isPaused;
   }
@@ -222,5 +226,63 @@ export class SimulacionComponent {
 
   isColorArray(value: any): value is [number, number, number] {
     return Array.isArray(value) && value.length === 3 && value.every(v => typeof v === 'number');
+  }
+
+  updateNewColorOPTData() {
+    this.realMemoryAux = this.mmu1.getRealMemory();
+  }
+
+  updateNewColorNormalData() {
+    this.realMemoryAuxNormal = this.mmu2.getRealMemory();
+  }
+
+  updateNewColorOPT() {
+    this.updateNewColorOPTData();
+    this.getALLDataMMUOpt();
+
+    this.realMemoryNEWColorOPT = Array(100).fill([255, 255, 255]);
+    this.realMemoryAux?.forEach((pageAux) => {
+      this.alldataMMUOPT.forEach((entry) => {
+        const color = entry[1] as [number, number, number];
+
+        for (let i = 2; i < entry.length; i++) {
+          const page = entry[i] as Page;
+
+          if (pageAux && pageAux.pageId === page.pageId) {
+
+            if (page.physicalAddress >= 0 && page.physicalAddress < 100) {
+              this.realMemoryNEWColorOPT[page.physicalAddress] = color;
+            }
+            break;
+          }
+        }
+      });
+    });
+
+  }
+
+  updateNewColorNormal() {
+    this.updateNewColorNormalData();
+    this.getALLDataMMUNormal();
+    this.realMemoryNEWColorNormal = Array(100).fill([255, 255, 255]);
+
+    this.realMemoryAuxNormal?.forEach((pageAux) => {
+      this.alldataMMUNormal.forEach((entry) => {
+        const pid = entry[0];
+        const color = entry[1] as [number, number, number];
+
+        for (let i = 2; i < entry.length; i++) {
+          const page = entry[i] as Page;
+
+          if (pageAux && pageAux.pageId === page.pageId) {
+            if (page.physicalAddress >= 0 && page.physicalAddress < 100) {
+              this.realMemoryNEWColorNormal[page.physicalAddress] = color;
+            }
+            break;
+          }
+        }
+      });
+    });
+
   }
 }

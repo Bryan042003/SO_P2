@@ -6,26 +6,26 @@
                 RAM - OPT
             </div>
             <div class="row">
-                <div class="col" *ngFor="let col of dataRAMColorMMUOPT; let i = index"
-                    style="height: 20px; width: 10px; border: 1px solid black; padding: 0;"
-                    [ngStyle]="isColorArray(col[0]) ? {'background-color': 'rgb(' + col[0][0] + ',' + col[0][1] + ',' + col[0][2] + ')'} : {}">
-                </div>
-            </div>
+              <div class="col" *ngFor="let col of realMemoryNEWColorOPT; let i = index"
+                  style="height: 20px; width: 10px; border: 1px solid black; padding: 0;"
+                  [ngStyle]="{'background-color': 'rgb(' + col[0] + ',' + col[1] + ',' + col[2] + ')'}">
+              </div>
+          </div>
         </div>
     </div>
     <div class="row" style="width: 100%; padding: 10px;">
         <div class="col" style="border: 1px solid black;">
             <div class="row"
                 style="background-color: #FBF0F0; display: flex; justify-content: center; align-items: center; ">
-                RAM - [ALG]
+                RAM - {{algoritmoPuesto}}
             </div>
 
             <div class="row">
-                <div class="col" *ngFor="let col of dataRAMColorMMUNormal; let i = index"
-                    style="height: 20px; width: 10px; border: 1px solid black; padding: 0;"
-                    [ngStyle]="isColorArray(col[0]) ? {'background-color': 'rgb(' + col[0][0] + ',' + col[0][1] + ',' + col[0][2] + ')'} : {}">
-                </div>
-            </div>
+              <div class="col" *ngFor="let col of realMemoryNEWColorNormal; let i = index"
+                  style="height: 20px; width: 10px; border: 1px solid black; padding: 0;"
+                  [ngStyle]="{'background-color': 'rgb(' + col[0] + ',' + col[1] + ',' + col[2] + ')'}">
+              </div>
+          </div>
         </div>
     </div>
     <div class="row" style="width: 100%; ">
@@ -122,7 +122,7 @@
 
             <div class="row"
                 style="background-color: #8F828D; color:white; display: flex; justify-content: center; align-items: center;">
-                MMU - [ALG]
+                MMU - {{algoritmoPuesto}}
             </div>
             <div class="row">
                 <div class="col" style="border: 1px solid black; text-align: center;">

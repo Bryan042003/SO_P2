@@ -3,7 +3,7 @@ import { Page } from "./pagina.model";
 
 export class PageAlgorithm {
   memoryCapacity: number;
-  memory: (Page | null)[];  // Acepta valores null
+  memory: (Page | null)[];
   totalTime: number;
 
   constructor(memoryCapacity: number = 100) {
@@ -12,7 +12,7 @@ export class PageAlgorithm {
     this.totalTime = 0;
   }
 
-  referencePage(page: Page): [Page | null, number] {
+  replacePage(page: Page): [Page | null, number] {
     return [null, 0];
   }
 
@@ -21,7 +21,6 @@ export class PageAlgorithm {
   }
 
   printMemory(): void {
-    //console.log("Memory content:");
     this.memory.forEach(page => {
       if (page) {
         //console.log(`Page ${page.pageId}`, `loaded ${page.positionFlag}`);

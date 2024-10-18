@@ -6,22 +6,21 @@ export class FIFO extends PageAlgorithm {
     super(memoryCapacity);
   }
 
-  override referencePage(refPage: Page): [Page | null, number] {
+  override replacePage(refPage: Page): [Page | null, number] {
     // Verificar si la página ya está en memoria
     for (const page of this.memory) {
       if (page && page.pageId === refPage.pageId) {
-        return [null, 1]; // La página ya está en memoria, no se necesita reemplazo
+        return [null, 1];
       }
     }
 
-    // Si la memoria está llena, eliminar la primera página (FIFO)
+    // memoria está llena, eliminar la primera página
     if (this.memory.length >= this.memoryCapacity) {
       const oldestPage = this.memory.shift() || null;
       this.memory.push(refPage); // Añadir la nueva página al final de la lista
-      return [oldestPage, 5]; // Devolver la página reemplazada
+      return [oldestPage, 5];
     }
 
-    // Si aún hay espacio en memoria, simplemente agregar la nueva página
     this.memory.push(refPage);
     return [null, 0];
   }
