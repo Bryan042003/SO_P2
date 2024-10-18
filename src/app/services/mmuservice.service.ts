@@ -26,6 +26,7 @@ export class MMU {
   public virtualMemoryNew: Page[] = [];
   public realMemoryNew: Page[] = [];
   public processIDKill: number = 0;
+  public pointerDelete: number = 0;
   public totalFragmentationWaste: number = 0;
   algorithmSelected: string = '';
   algorithm: any;
@@ -90,19 +91,19 @@ export class MMU {
     this.totalFragmentationWaste += fragmentationInternal;
 
     for (let pageCounter = 0; pageCounter < pages; pageCounter++) {
-        for (let spaceInRealMemory = 0; spaceInRealMemory < this.realMemory.length; spaceInRealMemory++) {
-            if (this.realMemory[spaceInRealMemory] === null) {
-                const page = new Page(this.pageCount, spaceInRealMemory, true);
-                page.timestamp = this.totalTime;
-                this.pageCount++;
-                this.realMemory[spaceInRealMemory] = page;
-                createdPages.push(page);
-                this.algorithm.memory.push(page);
-                insertedPages++;
-                this.totalTime++;
-                break;
-            }
+      for (let spaceInRealMemory = 0; spaceInRealMemory < this.realMemory.length; spaceInRealMemory++) {
+        if (this.realMemory[spaceInRealMemory] === null) {
+          const page = new Page(this.pageCount, spaceInRealMemory, true);
+          page.timestamp = this.totalTime;
+          this.pageCount++;
+          this.realMemory[spaceInRealMemory] = page;
+          createdPages.push(page);
+          this.algorithm.memory.push(page);
+          insertedPages++;
+          this.totalTime++;
+          break;
         }
+      }
     }
 
     while (insertedPages < pages) {
@@ -111,18 +112,18 @@ export class MMU {
       const [replacedPage, time] = this.algorithm.referencePage(page);
 
       if (replacedPage !== null) {
-          // Solo intenta acceder a replacedPage si no es nulo
-          replacedPage.positionFlag = false;
-          this.virtualMemory.push(replacedPage); // Mueve la página reemplazada a la memoria virtual
-          page.positionFlag = true; // Marca la nueva página como en memoria real
-          page.physicalAddress = replacedPage.physicalAddress; // Asigna la dirección física de la página reemplazada
-          createdPages.push(page); // Agrega la nueva página creada
+        // Solo intenta acceder a replacedPage si no es nulo
+        replacedPage.positionFlag = false;
+        this.virtualMemory.push(replacedPage); // Mueve la página reemplazada a la memoria virtual
+        page.positionFlag = true; // Marca la nueva página como en memoria real
+        page.physicalAddress = replacedPage.physicalAddress; // Asigna la dirección física de la página reemplazada
+        createdPages.push(page); // Agrega la nueva página creada
       }
 
       insertedPages++;
       this.totalTime += time;
       this.thrashingTime += time;
-  }
+    }
 
     const pagesArray = [pid, color, ...createdPages];
     this.alldataAlt.push(pagesArray);
@@ -130,11 +131,11 @@ export class MMU {
     const currentPointer = this.pointerCount;
     this.memoryMap.set(currentPointer, createdPages);
     this.pointerCount++;
-    //console.log("memoria Real actual:", this.realMemory);
-    //console.log("memoria Virtual actual", this.virtualMemory);
+    //console.log("new Real actual:", this.realMemory);
+    //console.log("new Virtual actual", this.virtualMemory);
 
     return currentPointer;
-}
+  }
 
   usePointer(pointer: number) {
     if (this.memoryMap.size === 0 || !this.memoryMap.has(pointer)) {
@@ -161,28 +162,64 @@ export class MMU {
   }
 
   deletePointer(pointer: number) {
-    if (this.memoryMap.size === 0 || !this.memoryMap.has(pointer)) {
-      return;
-    }
-    const pages = this.memoryMap.get(pointer);
-    if (!pages) return;
-    for (const page of pages) {
-      if (page.positionFlag) {
-        this.algorithm.delete(page);
-        this.realMemory[page.physicalAddress] = null;
-        this.totalTime++;
-      } else {
-        this.virtualMemory = this.virtualMemory.filter(p => p !== page);
-        this.totalTime += 5;
-        this.thrashingTime += 5;
-      }
-    }
-    this.memoryMap.delete(pointer);
-    this.updateKILLMemoryRandV();
+    this.pointerDelete = pointer;
 
-    //console.log("memoria Real actual:", this.realMemory);
-    //console.log("memoria Virtual actual", this.virtualMemory);
-  }
+    // Verificar si el puntero existe en memoryMap
+    if (this.memoryMap.size === 0 || !this.memoryMap.has(pointer)) {
+        return;
+    }
+
+    const pagesDelete = this.memoryMap.get(pointer);
+
+    // Filtrar las páginas que no están asociadas al puntero que se está eliminando
+    const pages = Array.from(this.memoryMap.entries())
+        .filter(([key]) => key !== pointer)  // Filtra entradas que no coinciden con el puntero
+        .flatMap(([, pages]) => pages);  // Combina todas las páginas en un solo array
+
+    console.log("pages", pages);
+
+    // Comprobar que las páginas para eliminar existen
+    if (!pages) return;
+    if (!pagesDelete) return;
+
+    // Eliminar las páginas asociadas al puntero
+    for (const page of pagesDelete) {
+        if (page.positionFlag) {
+            this.algorithm.delete(page);
+            this.totalTime++;
+        } else {
+            this.totalTime += 5;
+            this.thrashingTime += 5;
+        }
+    }
+
+    // Inicializar las memorias
+    this.virtualMemory = [];
+    this.realMemory = Array(100).fill(null);
+
+    // Actualizar virtualMemory y realMemory con las páginas restantes
+    pages.forEach((page) => {
+        if (page.positionFlag) {
+            this.realMemory[page.physicalAddress] = page;
+        } else {
+            this.virtualMemory.push(page);
+        }
+    });
+
+    // Actualizar alldataAlt con las páginas restantes
+    this.alldataAlt = this.alldataAlt.filter((data) => {
+        const pid = data[0]; // Obtener el PID
+        const remainingPages = data.slice(1).filter((page): page is Page => page instanceof Page && pagesDelete.indexOf(page) === -1); // Filtrar las páginas eliminadas
+
+        // Retener el PID solo si aún tiene páginas
+        return remainingPages.length > 0 ? [pid, ...remainingPages] : null;
+    });
+
+    // Eliminar el puntero del memoryMap
+    this.memoryMap.delete(pointer);
+
+}
+
 
   killProcess(process: Process) {
     this.processIDKill = process.pid;
@@ -251,23 +288,26 @@ export class MMU {
 
     // actualizar virtualMemory y realMemory
     this.alldataAlt.forEach((pages) => {
-        const pid = pages[0];
-        const pageList = pages.slice(1);
+      const pid = pages[0];
+      const pageList = pages.slice(1);
 
-        pageList.forEach((page) => {
-            page = page as Page;
-            if (page.positionFlag) {
-                this.realMemory[page.physicalAddress] = page;
-            } else {
-                this.virtualMemory.push(page);
-            }
-        });
+      pageList.forEach((page) => {
+        page = page as Page;
+        if (page.positionFlag) {
+          this.realMemory[page.physicalAddress] = page;
+        } else {
+          this.virtualMemory.push(page);
+        }
+      });
     });
 
     this.virtualMemoryNew = this.virtualMemory.filter((page): page is Page => page !== null);
     this.realMemoryNew = this.realMemory.filter((page): page is Page => page !== null);
+
+
     //console.log("alldata en kill", this.alldataAlt);
   }
+
 
   getAllDataAlt() {
     return this.alldataAlt;
